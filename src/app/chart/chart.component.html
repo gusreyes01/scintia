@@ -1,0 +1,24 @@
+<!--component html goes here -->
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            <img class="header-image" src="assets/images/scinita-logo.png">
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/"></ion-back-button>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    <div class="row">
+        <div class="col-md-6">
+            <div style="display: block;">
+                <canvas baseChart width="300" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
+                    [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+                    [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
+            </div>
+        </div>
+    </div>
+</ion-content>

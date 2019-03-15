@@ -1,0 +1,32 @@
+// component css goes here
+
+.header-image {
+    width: 20%;
+    height: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    float: right;
+}
+
+.step {
+  margin-left: 40px;
+}
+
+.selected {
+  color: #5f8bbeff;
+  font-weight: bold;
+}
+
+.expand-wrapper {
+    height: 100;
+    transition: 0.2s linear;
+  }  
+  
+  .collapsed {
+    height: 0 !important;
+  }
+
+
+  .label {
+    color: #5f8bbeff;
+  }

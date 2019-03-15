@@ -1,12 +1,19 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Ionic Blank
+      <img class="header-image" src="assets/images/scinita-logo.png">
     </ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content>
+  <ion-list no-lines>
+    <ion-item [href]="'/protocol/' + p.id" detail="true" *ngFor="let p of protocolService.protocols">
+      <ion-label>{{ p.title }}</ion-label>
+    </ion-item>
+  </ion-list>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+
+  <ion-button class="btn-sc-primary" color="primary" expand="block" (click)="addProtocol()">Add Protocol
+  </ion-button>
+
 </ion-content>
