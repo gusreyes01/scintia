@@ -11,6 +11,11 @@
       <ion-label>{{ p.title }}</ion-label>
     </ion-item>
   </ion-list>
+  <ion-list no-lines>
+    <ion-item *ngFor="let p2 of protocols2">
+      <ion-label>{{ p2.title }}</ion-label>
+    </ion-item>
+  </ion-list>
 
 
   <ion-button class="btn-sc-primary" color="primary" expand="block" (click)="addProtocol()">Add Protocol

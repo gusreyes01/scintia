@@ -6,6 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Serial } from '@ionic-native/serial/ngx';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,11 +16,12 @@ import { FormStepModalComponent } from 'src/components/form-step-modal/form-step
 import { ProtocolService } from './services/protocol.services';
 import { CycleService } from './services/cycle.services';
 import { ChartsModule } from 'ng2-charts';
+import { FormProtocolModalComponent } from '../components/form-protocol-modal/form-protocol-modal.component';
 
 @NgModule({
-  declarations: [AppComponent, FormModalComponent, FormStepModalComponent],
-  entryComponents: [FormModalComponent, FormStepModalComponent, ],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, ChartsModule],
+  declarations: [AppComponent, FormModalComponent, FormStepModalComponent, FormProtocolModalComponent],
+  entryComponents: [FormModalComponent, FormStepModalComponent, FormProtocolModalComponent],
+  imports: [BrowserModule, IonicModule.forRoot(), IonicStorageModule.forRoot(), AppRoutingModule, ReactiveFormsModule, ChartsModule],
   providers: [
     Serial,
     CycleService,
