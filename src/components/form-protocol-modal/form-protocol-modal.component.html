@@ -1,0 +1,19 @@
+<!--component html goes here -->
+<!--component html goes here -->
+<h1>Add Protocol</h1>
+<form [formGroup]="myGroup" (ngSubmit)="save(myGroup.value)">
+    <ion-item>
+        <ion-label>Title</ion-label>
+        <ion-input type="text" formControlName="title" [(ngModel)]='title'></ion-input>
+    </ion-item>
+    <ion-row>
+        <ion-col col-6>
+            <!--<button ion-button type="submit" expand="block" color="primary">Save</button>-->
+            <ion-button expand="block" color="primary" (click)="save(myGroup.value)">Save</ion-button>
+        </ion-col>
+
+        <ion-col col-6>
+            <ion-button expand="block" color="danger" (click)="closeModal()">Cancel</ion-button>
+        </ion-col>
+    </ion-row>
+</form>

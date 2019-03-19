@@ -29,7 +29,7 @@ export class ProtocolDetailComponent {
     ionViewWillEnter() {
         const protocolId = this.route.snapshot.paramMap.get('id');
         this.protocol = this.protocolService.getProtocol(protocolId);
-        console.log(this.protocol)
+        console.log(this.protocol);
     }
 
 
