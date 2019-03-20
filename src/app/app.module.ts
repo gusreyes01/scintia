@@ -27,6 +27,7 @@ import { FormProtocolModalComponent } from '../components/form-protocol-modal/fo
     CycleService,
     StatusBar,
     SplashScreen,
+    ProtocolService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
