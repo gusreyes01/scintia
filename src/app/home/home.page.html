@@ -7,13 +7,8 @@
 </ion-header>
 <ion-content>
   <ion-list no-lines>
-    <ion-item [href]="'/protocol/' + p.id" detail="true" *ngFor="let p of protocolService.protocols">
+    <ion-item [href]="'/protocol/' + p.title" detail="true" *ngFor="let p of protocolService.protocols">
       <ion-label>{{ p.title }}</ion-label>
-    </ion-item>
-  </ion-list>
-  <ion-list no-lines>
-    <ion-item *ngFor="let p2 of protocols2">
-      <ion-label>{{ p2.title }}</ion-label>
     </ion-item>
   </ion-list>
 

@@ -6,6 +6,7 @@ import { FormStepModalComponent } from 'src/components/form-step-modal/form-step
 import { ActivatedRoute } from '@angular/router';
 import { ProtocolService } from '../services/protocol.services';
 import { AlertController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
     selector: 'protocol-detail',
@@ -19,19 +20,34 @@ export class ProtocolDetailComponent {
     cycles: any = [];
     itemExpandHeight = 200;
     protocol: any;
+    protocol2: any;
+    protocols: any = [];
     cycle: any;
+    protocolId;
 
-    constructor(private route: ActivatedRoute, public navCtrl: NavController,
-        private modalController: ModalController, private protocolService: ProtocolService, public alertController: AlertController) {
-
+    constructor(
+        private modalController: ModalController,
+        private protocolService: ProtocolService,
+        private route: ActivatedRoute,
+        private storage: Storage,
+        public alertController: AlertController,
+        public navCtrl: NavController
+    ) {
+        this.storage.get('protocols').then(protocols => {
+            this.getProtocols(protocols);
+        });
     }
 
     ionViewWillEnter() {
-        const protocolId = this.route.snapshot.paramMap.get('id');
-        this.protocol = this.protocolService.getProtocol(protocolId);
-        console.log(this.protocol);
+        this.protocolId = this.route.snapshot.paramMap.get('id');
+        // this.protocol = this.protocolService.getProtocol(protocolId);
     }
 
+    getProtocols(protocols) {
+        this.protocols = protocols;
+        console.log(this.protocols);
+        this.protocol = this.protocols.find(protocol => protocol.title === '' + this.protocolId);
+    }
 
     async addCycle() {
         const modal = await this.modalController.create({

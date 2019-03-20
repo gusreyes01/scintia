@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CycleService } from './cycle.services';
+import { Storage } from '@ionic/storage';
 
 class Protocol {
     id: any;
@@ -17,26 +18,48 @@ class Protocol {
 export class ProtocolService {
 
     public protocols: Protocol[] = [];
-
-    constructor(private cycleService: CycleService) {
-        this.protocols = [
-
-            {
-                id: '1', title: 'PCR Protocol',
-                cycles: this.cycleService.getPCRCycles(), addCycle: Protocol.prototype.addCycle
-            },
-        ];
-    }
-
-    addProtocol(title) {
-        this.protocols.push({
-            id: this.protocols.length + 1, title: title,
-            cycles: this.cycleService.getNewCycles(), addCycle: Protocol.prototype.addCycle
+    public protocols2 = [];
+    constructor(
+        private cycleService: CycleService,
+        private storage: Storage,
+    ) {
+        this.storage.get('protocols').then(data => {
+            this.protocols = data;
+            if (!this.protocols) {
+                this.protocols = [
+                    {
+                        id: 1, title: 'PCR Protocol',
+                        cycles: this.cycleService.getPCRCycles(), addCycle: Protocol.prototype.addCycle
+                    },
+                ];
+                this.storage.set('protocols', this.protocols);
+            }
         });
     }
 
+    addProtocol(title) {
+        this.storage.get('protocols').then(protocols => {
+            this.protocols2 = protocols;
+            this.protocols2.push({
+                id: this.protocols.length + 1, title: title
+            });
+            this.storage.remove('protocols');
+            this.storage.set('protocols', this.protocols2);
+            this.protocolsArray(this.protocols2);
+        });
+        /*this.protocols.push({
+            id: this.protocols.length + 1, title: title,
+            cycles: this.cycleService.getNewCycles(), addCycle: Protocol.prototype.addCycle
+        });*/
+
+    }
+
+    protocolsArray(protocols2) {
+        this.protocols2 = protocols2;
+    }
+
     getProtocol(id): Protocol {
-        return this.protocols.find(protocol => protocol.id === '' + id);
+        return this.protocols2.find(protocol => protocol.id === '' + id);
     }
 
 }

@@ -25,10 +25,12 @@ export class HomePage {
     public navCtrl: NavController,
     ) {
       this.protocols2 = [];
-      this.storage.get('protocol').then((value) => {
-        const values = value;
-        this.protocols2.push(values);
-      });
+    }
+
+  ionViewWillEnter() {
+    this.storage.get('protocols').then(data => {
+      this.protocols2 = data;
+    });
   }
 
   async addProtocol() {
@@ -39,9 +41,7 @@ export class HomePage {
       }
     });
     modal.onWillDismiss().then(() => {
-      this.storage.get('protocol').then((value) => {
-        this.protocols2.push(value);
-      });
+      this.ionViewWillEnter();
     });
     return await modal.present();
   }

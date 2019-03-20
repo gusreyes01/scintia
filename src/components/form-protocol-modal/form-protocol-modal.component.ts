@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ModalController, NavParams } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { ProtocolService } from '../../app/services/protocol.services';
 
 @Component({
     selector: 'form-protocol-modal',
@@ -16,12 +17,12 @@ export class FormProtocolModalComponent {
 
     constructor(
         private modalController: ModalController,
+        private protocolService: ProtocolService,
         private navParams: NavParams,
         private storage: Storage,
     ) {
         this.myGroup = new FormGroup({
             title: new FormControl(),
-            id: new FormControl()
         });
     }
 
@@ -31,8 +32,8 @@ export class FormProtocolModalComponent {
     }
 
     save(formValue) {
-        formValue.id = Math.floor((Math.random() * 6) + 1);
-        this.storage.set('protocol', formValue);
+        // this.storage.set('protocol', formValue);
+        this.protocolService.addProtocol(formValue.title);
         this.modalController.dismiss(null);
     }
 
