@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
 
 class Cycle {
     id: number;
@@ -18,8 +19,13 @@ export class CycleService {
 
     public cycles: Cycle[] = [];
     pcrcycles: Cycle[];
+    public protocols = [];
+    public cycles2 = [];
+    public cycles3 = [];
 
-    constructor() {
+    constructor(
+        private storage: Storage,
+    ) {
 
         this.cycles = [
 
@@ -64,6 +70,31 @@ export class CycleService {
         return this.pcrcycles;
     }
 
+    addCycle(protocol, newCycle) {
+        this.storage.get('cycle_' + protocol.id).then(cycles => {
+            this.cycles2 = cycles;
+            if (!this.cycles2) {
+                this.cycles2 = [];
+                this.cycles2.push({
+                    id: 1, name: newCycle.name, expanded: newCycle.expanded, repeat: newCycle.repeat
+                });
+                this.storage.remove('cycle_' + protocol.id);
+                this.storage.set('cycle_' + protocol.id, this.cycles2);
+                this.cyclesArray(this.cycles2);
+                this.changeProtocol(protocol, this.cycles2);
+            } else {
+                this.cycles3 = this.cycles2;
+                this.cycles3.push({
+                    id: this.cycles3.length + 1, name: newCycle.name, expanded: newCycle.expanded, repeat: newCycle.repeat
+                });
+                this.storage.remove('cycle_' + protocol.id);
+                this.storage.set('cycle_' + protocol.id, this.cycles3);
+                this.cyclesArray(this.cycles3);
+                this.changeProtocol(protocol, this.cycles3);
+            }
+        });
+    }
+
     getCycles() {
         return this.cycles;
     }
@@ -80,6 +111,23 @@ export class CycleService {
         this.cycles.push(cycle);
     }
 
+    cyclesArray(cycles3) {
+        this.cycles3 = cycles3;
+    }
 
+    changeProtocol(protocol, cycles3) {
+        this.storage.get('protocols').then(protocols => {
+            this.protocols = protocols;
+            const proto = this.protocols[protocol.id - 1];
+            const newProto = {
+                id: protocol.id,
+                title: protocol.title,
+                cycles: cycles3
+            };
+            this.protocols[protocol.id - 1] = newProto;
+            this.storage.remove('protocols');
+            this.storage.set('protocols', this.protocols);
+        });
+    }
 
 }

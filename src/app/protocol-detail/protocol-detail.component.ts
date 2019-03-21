@@ -45,7 +45,6 @@ export class ProtocolDetailComponent {
 
     getProtocols(protocols) {
         this.protocols = protocols;
-        console.log(this.protocols);
         this.protocol = this.protocols.find(protocol => protocol.title === '' + this.protocolId);
     }
 
@@ -54,15 +53,16 @@ export class ProtocolDetailComponent {
             component: FormModalComponent,
             componentProps: {
                 aParameter: true,
+                protocol: this.protocol
             }
         });
         modal.onWillDismiss().then((detail: OverlayEventDetail) => {
-            if (detail !== null) {
+            /*if (detail !== null) {
                 console.log('The result:', detail.data.value.repeat);
                 this.protocol.addCycle({
                     id: 6, repeat: detail.data.value.repeat, expanded: false, steps: []
                 });
-            }
+            }*/
         });
         return await modal.present();
     }
