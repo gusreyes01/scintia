@@ -17,6 +17,7 @@ import { ProtocolService } from './services/protocol.services';
 import { CycleService } from './services/cycle.services';
 import { ChartsModule } from 'ng2-charts';
 import { FormProtocolModalComponent } from '../components/form-protocol-modal/form-protocol-modal.component';
+import { StepService } from './services/step.services';
 
 @NgModule({
   declarations: [AppComponent, FormModalComponent, FormStepModalComponent, FormProtocolModalComponent],
@@ -25,6 +26,7 @@ import { FormProtocolModalComponent } from '../components/form-protocol-modal/fo
   providers: [
     Serial,
     CycleService,
+    StepService,
     StatusBar,
     SplashScreen,
     ProtocolService,
