@@ -80,7 +80,6 @@ export class CycleService {
                 });
                 this.storage.remove('cycle_' + protocol.id);
                 this.storage.set('cycle_' + protocol.id, this.cycles2);
-                this.cyclesArray(this.cycles2);
                 this.changeProtocol(protocol, this.cycles2);
             } else {
                 this.cycles3 = this.cycles2;
@@ -89,7 +88,6 @@ export class CycleService {
                 });
                 this.storage.remove('cycle_' + protocol.id);
                 this.storage.set('cycle_' + protocol.id, this.cycles3);
-                this.cyclesArray(this.cycles3);
                 this.changeProtocol(protocol, this.cycles3);
             }
         });
@@ -111,14 +109,9 @@ export class CycleService {
         this.cycles.push(cycle);
     }
 
-    cyclesArray(cycles3) {
-        this.cycles3 = cycles3;
-    }
-
     changeProtocol(protocol, cycles3) {
         this.storage.get('protocols').then(protocols => {
             this.protocols = protocols;
-            const proto = this.protocols[protocol.id - 1];
             const newProto = {
                 id: protocol.id,
                 title: protocol.title,

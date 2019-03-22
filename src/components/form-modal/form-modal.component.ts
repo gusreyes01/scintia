@@ -35,7 +35,6 @@ export class FormModalComponent {
     }
     save(formValue) {
         this.cycleService.addCycle(this.actualProtocol, formValue);
-        formValue.expanded = false;
         this.modalController.dismiss(null);
     }
 

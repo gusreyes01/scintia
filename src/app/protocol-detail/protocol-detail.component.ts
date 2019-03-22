@@ -76,13 +76,15 @@ export class ProtocolDetailComponent {
                 component: FormStepModalComponent,
                 componentProps: {
                     aParameter: true,
+                    protocol: this.protocol,
+                    cycle: this.cycle
                 }
             });
-            modal.onWillDismiss().then((detail: OverlayEventDetail) => {
+            /*modal.onWillDismiss().then((detail: OverlayEventDetail) => {
                 if (detail !== null) {
                     this.cycle.addStep({ temperature: detail.data.value.temperature, time: detail.data.value.time });
                 }
-            });
+            });*/
             return await modal.present();
         }
     }
