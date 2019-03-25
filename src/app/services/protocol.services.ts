@@ -7,9 +7,9 @@ class Protocol {
     title: string;
     cycles: any;
 
-    addCycle(cycle) {
+    /*addCycle(cycle) {
         return this.cycles.push(cycle);
-    }
+    }*/
 
 }
 
@@ -29,7 +29,7 @@ export class ProtocolService {
                 this.protocols = [
                     {
                         id: 1, title: 'PCR Protocol',
-                        cycles: this.cycleService.getPCRCycles(), addCycle: Protocol.prototype.addCycle
+                        cycles: this.cycleService.getPCRCycles()
                     },
                 ];
                 this.storage.set('protocols', this.protocols);

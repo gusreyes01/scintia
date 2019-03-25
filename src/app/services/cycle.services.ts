@@ -41,8 +41,6 @@ export class CycleService {
                 id: 3, name: 'Final', repeat: 1, expanded: false, steps: this.stepService.getPCRSteps3()
             },
         ];
-
-        console.log(this.cycles);
     }
 
     getPCRCycles() {
