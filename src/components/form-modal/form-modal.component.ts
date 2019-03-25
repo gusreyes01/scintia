@@ -14,7 +14,11 @@ export class FormModalComponent {
     myParameter: boolean;
     myOtherParameter: Date;
     myGroup: FormGroup;
+    specialParameter: number;
     actualProtocol;
+    cycle: any;
+    name;
+    repeat;
 
     constructor(
         private cycleService: CycleService,
@@ -22,7 +26,6 @@ export class FormModalComponent {
         private navParams: NavParams,
         private storage: Storage,
     ) {
-        this.actualProtocol = this.navParams.get('protocol');
         this.myGroup = new FormGroup({
             name: new FormControl(),
             repeat: new FormControl()
@@ -32,9 +35,20 @@ export class FormModalComponent {
     ionViewWillEnter() {
         this.myParameter = this.navParams.get('aParameter');
         this.myOtherParameter = this.navParams.get('otherParameter');
+        this.specialParameter = this.navParams.get('specialParameter');
+        this.actualProtocol = this.navParams.get('protocol');
+        this.cycle = this.navParams.get('cycle');
+        if (this.cycle) {
+            this.name = this.cycle.name;
+            this.repeat = this.cycle.repeat;
+        }
     }
     save(formValue) {
-        this.cycleService.addCycle(this.actualProtocol, formValue);
+        if (this.specialParameter === 1) {
+            this.cycleService.addCycle(this.actualProtocol, formValue);
+        } else {
+            this.cycleService.editCycle(this.actualProtocol, this.cycle, formValue);
+        }
         this.modalController.dismiss(null);
     }
 

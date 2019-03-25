@@ -14,6 +14,9 @@ export class FormProtocolModalComponent {
     myParameter: boolean;
     myOtherParameter: Date;
     myGroup: FormGroup;
+    specialParameter: number;
+    protocol: any;
+    title;
 
     constructor(
         private modalController: ModalController,
@@ -29,11 +32,20 @@ export class FormProtocolModalComponent {
     ionViewWillEnter() {
         this.myParameter = this.navParams.get('aParameter');
         this.myOtherParameter = this.navParams.get('otherParameter');
+        this.specialParameter = this.navParams.get('specialParameter');
+        this.protocol = this.navParams.get('protocol');
+        if (this.protocol) {
+            this.title = this.protocol.title;
+        }
     }
 
     save(formValue) {
         // this.storage.set('protocol', formValue);
-        this.protocolService.addProtocol(formValue.title);
+        if (this.specialParameter === 1) {
+            this.protocolService.addProtocol(formValue.title);
+        } else {
+            this.protocolService.editProtocol(this.protocol, formValue);
+        }
         this.modalController.dismiss(null);
     }
 

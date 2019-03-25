@@ -18,7 +18,7 @@
                 <ion-label>
                     {{c.name}} <br> [Cycles: {{c.repeat}}]
                     <p id="s.id" class="step expand-wrapper" [class.collapsed]="!c.expanded" *ngFor="let s of c.steps">
-                        <ion-row>
+                        <ion-row (click)="showActions(s)">
                             <ion-col col-2>
                                 {{s.description}}
                             </ion-col>
@@ -33,6 +33,9 @@
 
             </ion-item>
             <ion-item-options side="end">
+                <ion-button class="btn-sc-primary" color="secondary" ion-button (click)="editCycle(c)">
+                    <ion-icon name="create"></ion-icon>Edit
+                </ion-button>
                 <ion-button class="btn-sc-primary" color="danger" ion-button (click)="delete(c)">
                     <ion-icon name="trash"></ion-icon>Delete
                 </ion-button>
