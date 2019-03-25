@@ -9,9 +9,9 @@ class Cycle {
     expanded: boolean;
     steps: any;
 
-    addStep(step) {
+    /*addStep(step) {
         return this.steps.push(step);
-    }
+    }*/
 
 }
 
@@ -32,17 +32,17 @@ export class CycleService {
         this.cycles = [
 
             {
-                id: 1, name: 'Initial', repeat: 1, expanded: false, steps: this.stepService.getPCRSteps1(), addStep: Cycle.prototype.addStep
+                id: 1, name: 'Initial', repeat: 1, expanded: false, steps: this.stepService.getPCRSteps1()
             },
             {
-                id: 2, name: 'Middle', repeat: 30, expanded: false, steps: this.stepService.getPCRSteps2(), addStep: Cycle.prototype.addStep
+                id: 2, name: 'Middle', repeat: 30, expanded: false, steps: this.stepService.getPCRSteps2()
             },
             {
-                id: 3, name: 'Final', repeat: 1, expanded: false, steps: this.stepService.getPCRSteps3(), addStep: Cycle.prototype.addStep
+                id: 3, name: 'Final', repeat: 1, expanded: false, steps: this.stepService.getPCRSteps3()
             },
         ];
 
-
+        console.log(this.cycles);
     }
 
     getPCRCycles() {
