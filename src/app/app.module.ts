@@ -18,6 +18,7 @@ import { CycleService } from './services/cycle.services';
 import { ChartsModule } from 'ng2-charts';
 import { FormProtocolModalComponent } from '../components/form-protocol-modal/form-protocol-modal.component';
 import { StepService } from './services/step.services';
+import { ActionSheet } from '@ionic-native/action-sheet/ngx';
 
 @NgModule({
   declarations: [AppComponent, FormModalComponent, FormStepModalComponent, FormProtocolModalComponent],
@@ -28,6 +29,7 @@ import { StepService } from './services/step.services';
     CycleService,
     StepService,
     StatusBar,
+    ActionSheet,
     SplashScreen,
     ProtocolService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

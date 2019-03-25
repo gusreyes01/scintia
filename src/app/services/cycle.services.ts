@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { StepService } from './step.services';
 
 class Cycle {
     id: number;
@@ -25,40 +26,19 @@ export class CycleService {
 
     constructor(
         private storage: Storage,
+        private stepService: StepService,
     ) {
 
         this.cycles = [
 
             {
-                id: 1, name: 'Initial', repeat: 1, expanded: false, steps: [
-                    {
-                        time: 120.0,
-                        temperature: 94.0,
-                        description: 'Denaturation'
-                    }
-                ], addStep: Cycle.prototype.addStep
+                id: 1, name: 'Initial', repeat: 1, expanded: false, steps: this.stepService.getPCRSteps1(), addStep: Cycle.prototype.addStep
             },
             {
-                id: 2, name: 'Middle', repeat: 30, expanded: false, steps: [{
-                    time: 30,
-                    temperature: 94.0,
-                    description: 'Denaturation'
-                }, {
-                    time: 30,
-                    temperature: 60.0,
-                    description: 'Annealing'
-                }, {
-                    time: 30,
-                    temperature: 72.0,
-                    description: 'Extension'
-                }], addStep: Cycle.prototype.addStep
+                id: 2, name: 'Middle', repeat: 30, expanded: false, steps: this.stepService.getPCRSteps2(), addStep: Cycle.prototype.addStep
             },
             {
-                id: 3, name: 'Final', repeat: 1, expanded: false, steps: [{
-                    time: 60,
-                    temperature: 72.0,
-                    description: 'Extension'
-                }], addStep: Cycle.prototype.addStep
+                id: 3, name: 'Final', repeat: 1, expanded: false, steps: this.stepService.getPCRSteps3(), addStep: Cycle.prototype.addStep
             },
         ];
 
@@ -90,6 +70,19 @@ export class CycleService {
                 this.storage.set('cycle_' + protocol.id, this.cycles3);
                 this.changeProtocol(protocol, this.cycles3);
             }
+        });
+    }
+
+    editCycle(protocol, cycle, data) {
+        this.storage.get('cycle_' + protocol.id).then(cycles => {
+            this.cycles2 = cycles;
+            const newCycle = {
+                id: cycle.id, name: data.name, expanded: cycle.expanded, repeat: data.repeat, steps: cycle.steps
+            };
+            this.cycles2[cycle.id - 1] = newCycle;
+            this.storage.remove('cycle_' + protocol.id);
+            this.storage.set('cycle_' + protocol.id, this.cycles2);
+            this.changeProtocol(protocol, this.cycles2);
         });
     }
 

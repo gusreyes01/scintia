@@ -3,7 +3,7 @@ import { Storage } from '@ionic/storage';
 
 class Step {
     id: number;
-    name: any;
+    description: any;
     time: number;
     temperature: number;
 }
@@ -11,7 +11,12 @@ class Step {
 @Injectable()
 export class StepService {
 
-    public steps: Step[] = [];
+    public stepsCycle1: Step[] = [];
+    public stepsCycle2: Step[] = [];
+    public stepsCycle3: Step[] = [];
+    prcsteps1: Step[];
+    prcsteps2: Step[];
+    prcsteps3: Step[];
     public protocols = [];
     public cycles = [];
     public steps2 = [];
@@ -20,15 +25,36 @@ export class StepService {
     constructor(
         private storage: Storage,
     ) {
-        /*this.steps = [{
+        this.stepsCycle1 = [{
+            id: 1,
+            time: 120.0,
+            temperature: 94.0,
+            description: 'Denaturation'
+        }];
+        this.stepsCycle2 = [{
+            id: 1,
+            time: 30,
+            temperature: 94.0,
+            description: 'Denaturation'
+        },
+        {
+            id: 2,
+            time: 30,
+            temperature: 60.0,
+            description: 'Annealing'
+        },
+        {
+            id: 3,
+            time: 30,
+            temperature: 72.0,
+            description: 'Extension'
+        }];
+        this.stepsCycle3 = [{
             id: 1,
             time: 60,
-            temperature: 30
-        }, {
-            id: 2,
-            time: 60,
-            temperature: 30
-        }];*/
+            temperature: 72.0,
+            description: 'Extension'
+        }];
     }
 
     addStep(protocol, cycle, newStep) {
@@ -79,5 +105,32 @@ export class StepService {
                 this.storage.set('protocols', this.protocols);
             });
         });
+    }
+
+    getPCRSteps1() {
+        this.prcsteps1 = [this.getSteps1(1)];
+        return this.prcsteps1;
+    }
+
+    getPCRSteps2() {
+        this.prcsteps2 = [this.getSteps2(1), this.getSteps2(2), this.getSteps2(3)];
+        return this.prcsteps2;
+    }
+
+    getPCRSteps3() {
+        this.prcsteps3 = [this.getSteps3(1)];
+        return this.prcsteps3;
+    }
+
+    getSteps1(id): Step {
+        return this.stepsCycle1.find(step => step.id === id);
+    }
+
+    getSteps2(id): Step {
+        return this.stepsCycle2.find(step => step.id === id);
+    }
+
+    getSteps3(id): Step {
+        return this.stepsCycle3.find(step => step.id === id);
     }
 }

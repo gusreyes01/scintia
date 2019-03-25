@@ -1,12 +1,13 @@
 import { FormModalComponent } from './../../components/form-modal/form-modal.component';
 import { Component } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController, NavController, ActionSheetController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { FormStepModalComponent } from 'src/components/form-step-modal/form-step-modal.component';
 import { ActivatedRoute } from '@angular/router';
 import { ProtocolService } from '../services/protocol.services';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { ActionSheet, ActionSheetOptions } from '@ionic-native/action-sheet/ngx';
 
 @Component({
     selector: 'protocol-detail',
@@ -26,6 +27,7 @@ export class ProtocolDetailComponent {
     protocolId;
 
     constructor(
+        private actionSheet: ActionSheet,
         private modalController: ModalController,
         private protocolService: ProtocolService,
         private route: ActivatedRoute,
@@ -53,7 +55,9 @@ export class ProtocolDetailComponent {
             component: FormModalComponent,
             componentProps: {
                 aParameter: true,
-                protocol: this.protocol
+                specialParameter: 1,
+                protocol: this.protocol,
+                cycle: null
             }
         });
         modal.onWillDismiss().then((detail: OverlayEventDetail) => {
@@ -67,8 +71,32 @@ export class ProtocolDetailComponent {
         return await modal.present();
     }
 
+    async editCycle(cycle) {
+        const modal = await this.modalController.create({
+            component: FormModalComponent,
+            componentProps: {
+                aParameter: true,
+                specialParameter: 2,
+                protocol: this.protocol,
+                cycle: cycle
+            }
+        });
+        return await modal.present();
+    }
 
+    showActions(step) {
+        const buttonLabels = ['Edit Step', 'Delete Step'];
 
+        const options: ActionSheetOptions = {
+            title: 'Choose an action',
+            buttonLabels: buttonLabels,
+            addCancelButtonWithLabel: 'Cancel',
+        };
+
+        this.actionSheet.show(options).then((buttonIndex: number) => {
+            console.log('Button pressed: ' + buttonIndex);
+        });
+    }
 
     async addStep() {
         if (this.cycle) {
@@ -96,7 +124,6 @@ export class ProtocolDetailComponent {
         }
 
     }
-
 
     expandCycle(item) {
         this.protocol.cycles.map((listItem) => {

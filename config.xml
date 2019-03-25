@@ -85,4 +85,5 @@
     <plugin name="cordovarduino" spec="0.0.10" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
+    <plugin name="cordova-plugin-actionsheet" spec="^2.3.3" />
 </widget>

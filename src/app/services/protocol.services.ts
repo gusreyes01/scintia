@@ -47,11 +47,20 @@ export class ProtocolService {
             this.storage.set('protocols', this.protocols2);
             this.protocolsArray(this.protocols2);
         });
-        /*this.protocols.push({
-            id: this.protocols.length + 1, title: title,
-            cycles: this.cycleService.getNewCycles(), addCycle: Protocol.prototype.addCycle
-        });*/
+    }
 
+    editProtocol(protocol, title) {
+        this.storage.get('protocols').then(protocols => {
+            this.protocols2 = protocols;
+            const newProto = {
+                id: protocol.id,
+                title: title.title,
+                cycles: protocol.cycles
+            };
+            this.protocols2[protocol.id - 1] = newProto;
+            this.storage.remove('protocols');
+            this.storage.set('protocols', this.protocols2);
+        });
     }
 
     protocolsArray(protocols2) {

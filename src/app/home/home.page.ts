@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { FormProtocolModalComponent } from '../../components/form-protocol-modal/form-protocol-modal.component';
 import { Storage } from '@ionic/storage';
+import { FormModalComponent } from '../../components/form-modal/form-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -38,11 +39,32 @@ export class HomePage {
       component: FormProtocolModalComponent,
       componentProps: {
         aParameter: true,
+        specialParameter: 1,
+        protocol: null
       }
     });
     modal.onWillDismiss().then(() => {
       this.ionViewWillEnter();
     });
     return await modal.present();
+  }
+
+  async editProtocol(protocol) {
+    const modal = await this.modalController.create({
+      component: FormProtocolModalComponent,
+      componentProps: {
+        aParameter: true,
+        specialParameter: 2,
+        protocol: protocol
+      }
+    });
+    modal.onWillDismiss().then(() => {
+      this.ionViewWillEnter();
+    });
+    return await modal.present();
+  }
+
+  deleteProtocol(protocol) {
+    console.log(protocol);
   }
 }
