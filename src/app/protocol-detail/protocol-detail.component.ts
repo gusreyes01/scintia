@@ -24,6 +24,7 @@ export class ProtocolDetailComponent {
     protocol2: any;
     protocols: any = [];
     cycle: any;
+    step: any;
     protocolId;
 
     constructor(
@@ -71,6 +72,27 @@ export class ProtocolDetailComponent {
         return await modal.present();
     }
 
+    async addStep() {
+        if (this.cycle) {
+            const modal = await this.modalController.create({
+                component: FormStepModalComponent,
+                componentProps: {
+                    aParameter: true,
+                    specialParameter: 1,
+                    protocol: this.protocol,
+                    cycle: this.cycle,
+                    step: null
+                }
+            });
+            /*modal.onWillDismiss().then((detail: OverlayEventDetail) => {
+                if (detail !== null) {
+                    this.cycle.addStep({ temperature: detail.data.value.temperature, time: detail.data.value.time });
+                }
+            });*/
+            return await modal.present();
+        }
+    }
+
     async editCycle(cycle) {
         const modal = await this.modalController.create({
             component: FormModalComponent,
@@ -84,37 +106,18 @@ export class ProtocolDetailComponent {
         return await modal.present();
     }
 
-    showActions(step) {
-        const buttonLabels = ['Edit Step', 'Delete Step'];
-
-        const options: ActionSheetOptions = {
-            title: 'Choose an action',
-            buttonLabels: buttonLabels,
-            addCancelButtonWithLabel: 'Cancel',
-        };
-
-        this.actionSheet.show(options).then((buttonIndex: number) => {
-            console.log('Button pressed: ' + buttonIndex);
+    async editStep(step) {
+        const modal = await this.modalController.create({
+            component: FormStepModalComponent,
+            componentProps: {
+                aParameter: true,
+                specialParameter: 2,
+                protocol: this.protocol,
+                cycle: this.cycle,
+                step: step
+            }
         });
-    }
-
-    async addStep() {
-        if (this.cycle) {
-            const modal = await this.modalController.create({
-                component: FormStepModalComponent,
-                componentProps: {
-                    aParameter: true,
-                    protocol: this.protocol,
-                    cycle: this.cycle
-                }
-            });
-            /*modal.onWillDismiss().then((detail: OverlayEventDetail) => {
-                if (detail !== null) {
-                    this.cycle.addStep({ temperature: detail.data.value.temperature, time: detail.data.value.time });
-                }
-            });*/
-            return await modal.present();
-        }
+        return await modal.present();
     }
 
     delete(item) {
@@ -139,4 +142,15 @@ export class ProtocolDetailComponent {
 
     }
 
+    expandStep(item) {
+        this.cycle.steps.map((listItem) => {
+            if (item === listItem) {
+                this.step = item;
+                listItem.expanded = !listItem.expanded;
+            } else {
+                listItem.expanded = false;
+            }
+            return listItem;
+        });
+    }
 }
