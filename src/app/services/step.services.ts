@@ -80,6 +80,19 @@ export class StepService {
         });
     }
 
+    editStep(protocol, cycle, step, data) {
+        this.storage.get('step_' + cycle.id).then(steps => {
+            this.steps2 = steps;
+            const newStep = {
+                id: step.id, description: data.description, temperature: data.temperature, time: data.time
+            };
+            this.steps2[step.id - 1] = newStep;
+            this.storage.remove('step_' + cycle.id);
+            this.storage.set('step_' + cycle.id, this.steps2);
+            this.changeCycle(protocol, cycle, this.steps2);
+        });
+    }
+
     changeCycle(protocol, cycle, steps3) {
         this.storage.get('protocols').then(protocols => {
             this.protocols = protocols;
