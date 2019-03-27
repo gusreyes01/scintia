@@ -72,12 +72,9 @@ export class ProtocolDetailComponent {
             }
         });
         modal.onWillDismiss().then((detail: OverlayEventDetail) => {
-            /*if (detail !== null) {
-                console.log('The result:', detail.data.value.repeat);
-                this.protocol.addCycle({
-                    id: 6, repeat: detail.data.value.repeat, expanded: false, steps: []
-                });
-            }*/
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
         });
         return await modal.present();
     }
@@ -94,11 +91,11 @@ export class ProtocolDetailComponent {
                     step: null
                 }
             });
-            /*modal.onWillDismiss().then((detail: OverlayEventDetail) => {
-                if (detail !== null) {
-                    this.cycle.addStep({ temperature: detail.data.value.temperature, time: detail.data.value.time });
-                }
-            });*/
+            modal.onWillDismiss().then((detail: OverlayEventDetail) => {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            });
             return await modal.present();
         }
     }
@@ -113,11 +110,19 @@ export class ProtocolDetailComponent {
                 cycle: cycle
             }
         });
+        modal.onWillDismiss().then((detail: OverlayEventDetail) => {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
         return await modal.present();
     }
 
     async deleteCycle(cycle) {
         this.cycleService.deleteCycle(this.protocol, cycle);
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     }
 
     async editStep(step) {
@@ -131,11 +136,19 @@ export class ProtocolDetailComponent {
                 step: step
             }
         });
+        modal.onWillDismiss().then((detail: OverlayEventDetail) => {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
         return await modal.present();
     }
 
     async deleteStep(step) {
         this.stepService.deleteStep(this.protocol, this.cycle, step);
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     }
 
     expandCycle(item) {

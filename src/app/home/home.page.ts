@@ -45,6 +45,9 @@ export class HomePage {
     });
     modal.onWillDismiss().then(() => {
       this.ionViewWillEnter();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     });
     return await modal.present();
   }
@@ -60,11 +63,17 @@ export class HomePage {
     });
     modal.onWillDismiss().then(() => {
       this.ionViewWillEnter();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     });
     return await modal.present();
   }
 
   deleteProtocol(protocol) {
     this.protocolService.deleteProtocol(protocol);
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   }
 }
