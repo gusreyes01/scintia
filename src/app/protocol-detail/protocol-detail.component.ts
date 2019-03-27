@@ -8,6 +8,7 @@ import { ProtocolService } from '../services/protocol.services';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ActionSheet, ActionSheetOptions } from '@ionic-native/action-sheet/ngx';
+import { StepService } from '../services/step.services';
 
 @Component({
     selector: 'protocol-detail',
@@ -26,6 +27,7 @@ export class ProtocolDetailComponent {
     cycle: any;
     step: any;
     protocolId;
+    check: boolean;
 
     constructor(
         private actionSheet: ActionSheet,
@@ -49,6 +51,9 @@ export class ProtocolDetailComponent {
     getProtocols(protocols) {
         this.protocols = protocols;
         this.protocol = this.protocols.find(protocol => protocol.title === '' + this.protocolId);
+        this.protocol.cycles.map((listItem) => {
+            listItem.expanded = false;
+        });
     }
 
     async addCycle() {
@@ -137,9 +142,7 @@ export class ProtocolDetailComponent {
                 listItem.expanded = false;
             }
             return listItem;
-
         });
-
     }
 
     expandStep(item) {
