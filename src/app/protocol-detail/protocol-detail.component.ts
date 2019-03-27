@@ -9,6 +9,7 @@ import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ActionSheet, ActionSheetOptions } from '@ionic-native/action-sheet/ngx';
 import { StepService } from '../services/step.services';
+import { CycleService } from '../services/cycle.services';
 
 @Component({
     selector: 'protocol-detail',
@@ -31,6 +32,7 @@ export class ProtocolDetailComponent {
 
     constructor(
         private actionSheet: ActionSheet,
+        private cycleService: CycleService,
         private modalController: ModalController,
         private protocolService: ProtocolService,
         private route: ActivatedRoute,
@@ -51,9 +53,11 @@ export class ProtocolDetailComponent {
     getProtocols(protocols) {
         this.protocols = protocols;
         this.protocol = this.protocols.find(protocol => protocol.title === '' + this.protocolId);
-        this.protocol.cycles.map((listItem) => {
-            listItem.expanded = false;
-        });
+        if (this.protocol.cycles) {
+            this.protocol.cycles.map((listItem) => {
+                listItem.expanded = false;
+            });
+        }
     }
 
     async addCycle() {
@@ -111,6 +115,10 @@ export class ProtocolDetailComponent {
         return await modal.present();
     }
 
+    async deleteCycle(cycle) {
+        this.cycleService.deleteCycle(this.protocol, cycle);
+    }
+
     async editStep(step) {
         const modal = await this.modalController.create({
             component: FormStepModalComponent,
@@ -123,14 +131,6 @@ export class ProtocolDetailComponent {
             }
         });
         return await modal.present();
-    }
-
-    delete(item) {
-        const index = this.protocol.cycles.indexOf(item);
-        if (index > -1) {
-            this.protocol.cycles.splice(index, 1);
-        }
-
     }
 
     expandCycle(item) {
