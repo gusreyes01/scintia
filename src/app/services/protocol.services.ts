@@ -19,6 +19,8 @@ export class ProtocolService {
 
     public protocols: Protocol[] = [];
     public protocols2 = [];
+    public cycles2 = [];
+    public steps2 = [];
     constructor(
         private cycleService: CycleService,
         private storage: Storage,
@@ -58,6 +60,23 @@ export class ProtocolService {
                 cycles: protocol.cycles
             };
             this.protocols2[protocol.id - 1] = newProto;
+            this.storage.remove('protocols');
+            this.storage.set('protocols', this.protocols2);
+        });
+    }
+
+    deleteProtocol(protocol) {
+        this.storage.get('protocols').then(protocols => {
+            this.protocols2 = protocols;
+            this.storage.get('cycle_' + protocol.id).then(cycles => {
+                this.cycles2 = cycles;
+                for (const c of this.cycles2) {
+                    this.storage.remove('step_' + c.id);
+                }
+                this.storage.remove('cycle_' + protocol.id);
+            });
+            const deleteProtocol = this.protocols2[protocol.id - 1];
+            this.protocols2.splice(deleteProtocol.id - 1, 1);
             this.storage.remove('protocols');
             this.storage.set('protocols', this.protocols2);
         });
