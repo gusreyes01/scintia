@@ -37,6 +37,7 @@ export class ProtocolDetailComponent {
         private protocolService: ProtocolService,
         private route: ActivatedRoute,
         private storage: Storage,
+        private stepService: StepService,
         public alertController: AlertController,
         public navCtrl: NavController
     ) {
@@ -131,6 +132,10 @@ export class ProtocolDetailComponent {
             }
         });
         return await modal.present();
+    }
+
+    async deleteStep(step) {
+        this.stepService.deleteStep(this.protocol, this.cycle, step);
     }
 
     expandCycle(item) {
