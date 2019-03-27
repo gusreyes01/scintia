@@ -65,6 +65,7 @@ export class HomePage {
   }
 
   deleteProtocol(protocol) {
-    console.log(protocol);
+    this.protocolService.deleteProtocol(protocol);
+    this.ionViewWillEnter();
   }
 }
