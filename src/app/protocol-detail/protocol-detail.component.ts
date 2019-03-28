@@ -49,9 +49,6 @@ export class ProtocolDetailComponent {
     ionViewWillEnter() {
         this.protocolId = this.route.snapshot.paramMap.get('id');
         // this.protocol = this.protocolService.getProtocol(protocolId);
-        this.protocolService.watchStorage().subscribe((data) => {
-            this.getProtocols(data);
-        });
     }
 
     getProtocols(protocols) {
@@ -149,9 +146,9 @@ export class ProtocolDetailComponent {
 
     async deleteStep(step, j) {
         this.stepService.deleteStep(this.protocol, this.cycle, step, j);
-        setTimeout(() => {
+        /*setTimeout(() => {
             window.location.reload();
-        }, 1000);
+        }, 1000);*/
     }
 
     expandCycle(item) {
