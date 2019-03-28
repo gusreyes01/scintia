@@ -85,12 +85,11 @@ export class CycleService {
         });
     }
 
-    deleteCycle(protocol, cycle) {
+    deleteCycle(protocol, cycle, i) {
         this.storage.get('cycle_' + protocol.id).then(cycles => {
             this.cycles2 = cycles;
             this.storage.remove('step_' + cycle.id);
-            const deleteCycle = this.cycles2[cycle.id - 1];
-            this.cycles2.splice(deleteCycle.id - 1, 1);
+            this.cycles2.splice(i, 1);
             this.storage.remove('cycle_' + protocol.id);
             this.storage.set('cycle_' + protocol.id, this.cycles2);
             this.changeProtocol(protocol, this.cycles2);

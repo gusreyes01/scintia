@@ -93,11 +93,10 @@ export class StepService {
         });
     }
 
-    deleteStep(protocol, cycle, step) {
+    deleteStep(protocol, cycle, step, j) {
         this.storage.get('step_' + cycle.id).then(steps => {
             this.steps2 = steps;
-            const deleteStep = this.steps2[step.id - 1];
-            this.steps2.splice(deleteStep.id - 1, 1);
+            this.steps2.splice(j, 1);
             this.storage.remove('step_' + cycle.id);
             this.storage.set('step_' + cycle.id, this.steps2);
             this.changeCycle(protocol, cycle, this.steps2);
