@@ -13,11 +13,11 @@
 <ion-content padding>
     <h3>{{protocol?.title}}</h3>
     <ion-list class="product-types">
-        <ion-item-sliding *ngFor="let c of protocol?.cycles" margin-bottom>
+        <ion-item-sliding *ngFor="let c of protocol?.cycles; index as i" margin-bottom>
             <ion-item [class.selected]="c.expanded">
                 <ion-label>
                     <h2 (click)="expandCycle(c)">{{c.name}} <br> [Cycles: {{c.repeat}}]</h2>
-                    <p id="s.id" class="step expand-wrapper" [class.collapsed]="!c.expanded" *ngFor="let s of c.steps">
+                    <p id="s.id" class="step expand-wrapper" [class.collapsed]="!c.expanded" *ngFor="let s of c.steps; index as j">
                         <ion-row [class.selected]="s.expanded"  (click)="expandStep(s)">
                             <ion-col col-2>
                                 {{s.description}}
@@ -31,7 +31,7 @@
                             <ion-button class="btn-sc-primary" color="secondary" ion-button (click)="editStep(s)">
                                 <ion-icon name="create"></ion-icon>Edit
                             </ion-button>
-                            <ion-button class="btn-sc-primary" color="danger" ion-button (click)="deleteStep(s)">
+                            <ion-button class="btn-sc-primary" color="danger" ion-button (click)="deleteStep(s, j)">
                                 <ion-icon name="trash"></ion-icon>Delete
                             </ion-button>
                         </ion-row>
@@ -42,7 +42,7 @@
                 <ion-button class="btn-sc-primary" color="secondary" ion-button (click)="editCycle(c)">
                     <ion-icon name="create"></ion-icon>Edit
                 </ion-button>
-                <ion-button class="btn-sc-primary" color="danger" ion-button (click)="deleteCycle(c)">
+                <ion-button class="btn-sc-primary" color="danger" ion-button (click)="deleteCycle(c, i)">
                     <ion-icon name="trash"></ion-icon>Delete
                 </ion-button>
             </ion-item-options>

@@ -65,7 +65,7 @@ export class ProtocolService {
         });
     }
 
-    deleteProtocol(protocol) {
+    deleteProtocol(protocol, i) {
         this.storage.get('protocols').then(protocols => {
             this.protocols2 = protocols;
             this.storage.get('cycle_' + protocol.id).then(cycles => {
@@ -75,8 +75,7 @@ export class ProtocolService {
                 }
                 this.storage.remove('cycle_' + protocol.id);
             });
-            const deleteProtocol = this.protocols2[protocol.id - 1];
-            this.protocols2.splice(deleteProtocol.id - 1, 1);
+            this.protocols2.splice(i, 1);
             this.storage.remove('protocols');
             this.storage.set('protocols', this.protocols2);
         });

@@ -70,8 +70,8 @@ export class HomePage {
     return await modal.present();
   }
 
-  deleteProtocol(protocol) {
-    this.protocolService.deleteProtocol(protocol);
+  deleteProtocol(protocol, i) {
+    this.protocolService.deleteProtocol(protocol, i);
     setTimeout(() => {
       window.location.reload();
     }, 1000);
