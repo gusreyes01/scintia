@@ -46,7 +46,9 @@ export class FormProtocolModalComponent {
         } else {
             this.protocolService.editProtocol(this.protocol, formValue);
         }
-        this.modalController.dismiss(null);
+        this.modalController.dismiss({
+            title: this.title
+        });
     }
 
     closeModal() {

@@ -1,5 +1,5 @@
 import { ProtocolService } from './../services/protocol.services';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { FormProtocolModalComponent } from '../../components/form-protocol-modal/form-protocol-modal.component';
 import { Storage } from '@ionic/storage';
@@ -13,6 +13,7 @@ import { FormModalComponent } from '../../components/form-modal/form-modal.compo
 })
 export class HomePage {
 
+  public title: string;
 
   cycles: any = [];
   itemExpandHeight = 200;
@@ -28,9 +29,19 @@ export class HomePage {
       this.protocols2 = [];
     }
 
+  
+  ngOnInit(){
+    console.log("entro al onInit");
+  }
+
+  ionViewDidEnter(){
+    console.log("entro al ionViewDidEnter");
+  }
+
   ionViewWillEnter() {
     this.storage.get('protocols').then(data => {
       this.protocols2 = data;
+      console.log("entro a viewWillEnter");
     });
   }
 
@@ -43,13 +54,22 @@ export class HomePage {
         protocol: null
       }
     });
-    modal.onWillDismiss().then(() => {
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+
+    console.log("retorno del modal", data);
+    console.log(this.protocols2);
+    //this.protocols2 = data;
+    //console.log("segundo intento ", this.protocols2);
+    this.title = data['title'];
+    /*modal.onWillDismiss().then(() => {
       this.ionViewWillEnter();
       setTimeout(() => {
         window.location.reload();
       }, 1000);
     });
-    return await modal.present();
+    return await modal.present();*/
   }
 
   async editProtocol(protocol) {
