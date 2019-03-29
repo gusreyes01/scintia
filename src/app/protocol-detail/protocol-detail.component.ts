@@ -86,11 +86,6 @@ export class ProtocolDetailComponent {
                     step: null
                 }
             });
-            modal.onWillDismiss().then((detail: OverlayEventDetail) => {
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
-            });
             return await modal.present();
         }
     }
@@ -122,11 +117,6 @@ export class ProtocolDetailComponent {
                 cycle: this.cycle,
                 step: step
             }
-        });
-        modal.onWillDismiss().then((detail: OverlayEventDetail) => {
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
         });
         return await modal.present();
     }
