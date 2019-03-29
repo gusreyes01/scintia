@@ -71,11 +71,13 @@ export class ProtocolService {
         return this.storage.get('protocols').then(protocols => {
             this.protocols2 = protocols;
             this.storage.get('cycle_' + protocol.id).then(cycles => {
-                this.cycles2 = cycles;
-                for (const c of this.cycles2) {
-                    this.storage.remove('step_' + c.id);
+                if(cycles != null){
+                    this.cycles2 = cycles;
+                    for (const c of this.cycles2) {
+                        this.storage.remove('step_' + c.id);
+                    }
+                    this.storage.remove('cycle_' + protocol.id);
                 }
-                this.storage.remove('cycle_' + protocol.id);
             });
             this.protocols2.splice(i, 1);
             this.storage.remove('protocols');
