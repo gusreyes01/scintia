@@ -71,11 +71,12 @@ export class ProtocolDetailComponent {
                 cycle: null
             }
         });
+        /*
         modal.onWillDismiss().then((detail: OverlayEventDetail) => {
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
-        });
+        });*/
         return await modal.present();
     }
 
