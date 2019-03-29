@@ -68,6 +68,7 @@ export class StepService {
                 this.storage.remove('step_' + cycle.id);
                 this.storage.set('step_' + cycle.id, this.steps2);
                 this.changeCycle(protocol, cycle, this.steps2);
+                cycle.steps = this.steps2;
             } else {
                 this.steps3 = this.steps2;
                 this.steps3.push({
@@ -76,6 +77,7 @@ export class StepService {
                 this.storage.remove('step_' + cycle.id);
                 this.storage.set('step_' + cycle.id, this.steps3);
                 this.changeCycle(protocol, cycle, this.steps3);
+                cycle.steps = this.steps3;
             }
         });
     }
@@ -90,6 +92,7 @@ export class StepService {
             this.storage.remove('step_' + cycle.id);
             this.storage.set('step_' + cycle.id, this.steps2);
             this.changeCycle(protocol, cycle, this.steps2);
+            cycle.steps = this.steps2;
         });
     }
 
@@ -100,6 +103,7 @@ export class StepService {
             this.storage.remove('step_' + cycle.id);
             this.storage.set('step_' + cycle.id, this.steps2);
             this.changeCycle(protocol, cycle, this.steps2);
+            cycle.steps = this.steps2;
         });
     }
 
