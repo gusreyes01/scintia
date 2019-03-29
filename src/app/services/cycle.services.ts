@@ -24,7 +24,7 @@ export class CycleService {
     public cycles2 = [];
     public cycles3 = [];
     public cycle = [];
-    
+
     constructor(
         private storage: Storage,
         private stepService: StepService,
@@ -84,6 +84,7 @@ export class CycleService {
             this.storage.remove('cycle_' + protocol.id);
             this.storage.set('cycle_' + protocol.id, this.cycles2);
             this.changeProtocol(protocol, this.cycles2);
+            protocol.cycles = this.cycles2;
         });
     }
 
@@ -95,6 +96,7 @@ export class CycleService {
             this.storage.remove('cycle_' + protocol.id);
             this.storage.set('cycle_' + protocol.id, this.cycles2);
             this.changeProtocol(protocol, this.cycles2);
+            protocol.cycles = this.cycles2;
         });
     }
 
