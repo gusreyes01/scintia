@@ -71,12 +71,6 @@ export class ProtocolDetailComponent {
                 cycle: null
             }
         });
-        /*
-        modal.onWillDismiss().then((detail: OverlayEventDetail) => {
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-        });*/
         return await modal.present();
     }
 
@@ -111,19 +105,11 @@ export class ProtocolDetailComponent {
                 cycle: cycle
             }
         });
-        modal.onWillDismiss().then((detail: OverlayEventDetail) => {
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-        });
         return await modal.present();
     }
 
     async deleteCycle(cycle, i) {
         this.cycleService.deleteCycle(this.protocol, cycle, i);
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
     }
 
     async editStep(step) {
