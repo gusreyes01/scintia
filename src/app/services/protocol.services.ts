@@ -40,7 +40,7 @@ export class ProtocolService {
     }
 
     addProtocol(title) {
-        this.storage.get('protocols').then(protocols => {
+        return this.storage.get('protocols').then(protocols => {
             this.protocols2 = protocols;
             this.protocols2.push({
                 id: this.protocols.length + 1, title: title
@@ -48,6 +48,7 @@ export class ProtocolService {
             this.storage.remove('protocols');
             this.storage.set('protocols', this.protocols2);
             this.protocolsArray(this.protocols2);
+            return this.protocols2;
         });
     }
 

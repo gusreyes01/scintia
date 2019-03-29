@@ -10,7 +10,7 @@
     <!--<ion-item [href]="'/protocol/' + p.title" detail="true" *ngFor="let p of protocolService.protocols">
       <ion-label>{{ p.title }}</ion-label>
     </ion-item>-->
-    <ion-item-sliding *ngFor="let p of protocolService.protocols; index as i">
+    <ion-item-sliding *ngFor="let p of protocols2; index as i">
       <ion-item [href]="'/protocol/' + p.title" detail="true">
         <ion-label>{{ p.title }}</ion-label>
       </ion-item>
@@ -23,6 +23,7 @@
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
+
   </ion-list>
 
 
