@@ -29,19 +29,9 @@ export class HomePage {
       this.protocols2 = [];
     }
 
-  
-  ngOnInit(){
-    console.log("entro al onInit");
-  }
-
-  ionViewDidEnter(){
-    console.log("entro al ionViewDidEnter");
-  }
-
   ionViewWillEnter() {
     this.storage.get('protocols').then(data => {
       this.protocols2 = data;
-      console.log("entro a viewWillEnter");
     });
   }
 
@@ -57,16 +47,9 @@ export class HomePage {
     await modal.present();
     const { data } = await modal.onDidDismiss();
     this.protocols2 = data['protocols'];
-    /*modal.onWillDismiss().then(() => {
-      this.ionViewWillEnter();
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-    });
-    return await modal.present();*/
   }
 
-  async editProtocol(protocol) {
+  async editProtocol(protocol, i) {
     const modal = await this.modalController.create({
       component: FormProtocolModalComponent,
       componentProps: {
@@ -75,19 +58,14 @@ export class HomePage {
         protocol: protocol
       }
     });
-    modal.onWillDismiss().then(() => {
-      this.ionViewWillEnter();
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-    });
-    return await modal.present();
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    this.protocols2 = data['protocols'];
   }
 
   deleteProtocol(protocol, i) {
-    this.protocolService.deleteProtocol(protocol, i);
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
+    this.protocolService.deleteProtocol(protocol, i).then(data => {
+      this.protocols2 = data;
+    });
   }
 }

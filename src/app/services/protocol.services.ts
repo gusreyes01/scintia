@@ -53,7 +53,7 @@ export class ProtocolService {
     }
 
     editProtocol(protocol, title) {
-        this.storage.get('protocols').then(protocols => {
+        return this.storage.get('protocols').then(protocols => {
             this.protocols2 = protocols;
             const newProto = {
                 id: protocol.id,
@@ -63,11 +63,12 @@ export class ProtocolService {
             this.protocols2[protocol.id - 1] = newProto;
             this.storage.remove('protocols');
             this.storage.set('protocols', this.protocols2);
+            return this.protocols2;
         });
     }
 
     deleteProtocol(protocol, i) {
-        this.storage.get('protocols').then(protocols => {
+        return this.storage.get('protocols').then(protocols => {
             this.protocols2 = protocols;
             this.storage.get('cycle_' + protocol.id).then(cycles => {
                 this.cycles2 = cycles;
@@ -79,6 +80,7 @@ export class ProtocolService {
             this.protocols2.splice(i, 1);
             this.storage.remove('protocols');
             this.storage.set('protocols', this.protocols2);
+            return this.protocols2;
         });
     }
 
