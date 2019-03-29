@@ -42,13 +42,14 @@ export class FormProtocolModalComponent {
     save(formValue) {
         // this.storage.set('protocol', formValue);
         if (this.specialParameter === 1) {
-            this.protocolService.addProtocol(formValue.title);
+            this.protocolService.addProtocol(formValue.title).then(data => {
+                this.modalController.dismiss({
+                    protocols: data
+                });
+            });
         } else {
             this.protocolService.editProtocol(this.protocol, formValue);
         }
-        this.modalController.dismiss({
-            title: this.title
-        });
     }
 
     closeModal() {

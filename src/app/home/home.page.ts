@@ -55,14 +55,8 @@ export class HomePage {
       }
     });
     await modal.present();
-
     const { data } = await modal.onDidDismiss();
-
-    console.log("retorno del modal", data);
-    console.log(this.protocols2);
-    //this.protocols2 = data;
-    //console.log("segundo intento ", this.protocols2);
-    this.title = data['title'];
+    this.protocols2 = data['protocols'];
     /*modal.onWillDismiss().then(() => {
       this.ionViewWillEnter();
       setTimeout(() => {
