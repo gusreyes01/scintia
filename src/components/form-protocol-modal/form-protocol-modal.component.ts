@@ -48,7 +48,11 @@ export class FormProtocolModalComponent {
                 });
             });
         } else {
-            this.protocolService.editProtocol(this.protocol, formValue);
+            this.protocolService.editProtocol(this.protocol, formValue).then(data => {
+                this.modalController.dismiss({
+                    protocols: data
+                });
+            });
         }
     }
 
