@@ -151,4 +151,26 @@ export class ProtocolDetailComponent {
             return listItem;
         });
     }
+
+    run(){
+        var {id, title, cycles} = this.protocol;
+        var salida = "#";
+        for (let i = 0; i < cycles.length; i++) {
+            const cycle = cycles[i];
+            var {repeat, steps} = cycle;
+            salida += "*"+repeat+"%";
+            for (let c = 0; c < steps.length; c++) {
+                const step = steps[c];
+                var {temperature, time} = step;
+                salida += temperature+","+time;
+                if (c+1 < steps.length) {
+                    salida += ",";
+                }
+            }
+            salida += "%";
+            salida += "*";
+        }
+        salida += "#";
+        console.log(salida);
+    }
 }
