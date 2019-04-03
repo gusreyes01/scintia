@@ -140,8 +140,8 @@ export class ProtocolDetailComponent {
         });
     }
 
-    expandStep(item) {
-        this.cycle.steps.map((listItem) => {
+    expandStep(cycle, item) {
+        cycle.steps.map((listItem) => {
             if (item === listItem) {
                 this.step = item;
                 listItem.expanded = !listItem.expanded;
