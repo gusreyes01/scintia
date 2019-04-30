@@ -104,7 +104,7 @@ export class ProtocolDetailComponent {
     }
 
     async deleteCycle(cycle, i) {
-        this.cycleService.deleteCycle(this.protocol, cycle, i);
+        this.protocol = this.protocolService.deleteCycle(this.protocol, cycle);
     }
 
     async editStep(step) {
@@ -122,27 +122,19 @@ export class ProtocolDetailComponent {
     }
 
     async deleteStep(step, j) {
-        this.stepService.deleteStep(this.protocol, this.cycle, step, j);
-        /*setTimeout(() => {
-            window.location.reload();
-        }, 1000);*/
+        //this.protocolService.deleteStep(this.protocol, this.cycle, step, j);
     }
 
-    expandCycle(item) {
-        this.protocol.cycles.map((listItem) => {
-            if (item === listItem) {
-                this.cycle = item;
-                listItem.expanded = !listItem.expanded;
-            } else {
-                listItem.expanded = false;
-            }
-            return listItem;
-        });
+
+    expandCycle(cycle) {
+        this.cycle = cycle;
     }
+
 
     expandStep(cycle, item) {
         cycle.steps.map((listItem) => {
             if (item === listItem) {
+                this.cycle = cycle;
                 this.step = item;
                 listItem.expanded = !listItem.expanded;
             } else {
@@ -152,25 +144,25 @@ export class ProtocolDetailComponent {
         });
     }
 
-    run(){
-        var {id, title, cycles} = this.protocol;
-        var salida = "#";
+    run() {
+        const { id, title, cycles } = this.protocol;
+        let salida = '#';
         for (let i = 0; i < cycles.length; i++) {
             const cycle = cycles[i];
-            var {repeat, steps} = cycle;
-            salida += "*"+repeat+"%";
+            const { repeat, steps } = cycle;
+            salida += '*' + repeat + '%';
             for (let c = 0; c < steps.length; c++) {
                 const step = steps[c];
-                var {temperature, time} = step;
-                salida += temperature+","+time;
-                if (c+1 < steps.length) {
-                    salida += ",";
+                const { temperature, time } = step;
+                salida += temperature + ',' + time;
+                if (c + 1 < steps.length) {
+                    salida += ',';
                 }
             }
-            salida += "%";
-            salida += "*";
+            salida += '%';
+            salida += '*';
         }
-        salida += "#";
+        salida += '#';
         console.log(salida);
     }
 }

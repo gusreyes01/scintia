@@ -3,6 +3,7 @@ import { ModalController, NavParams } from '@ionic/angular';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { CycleService } from '../../app/services/cycle.services';
+import { ProtocolService } from '../../app/services/protocol.services';
 
 @Component({
     selector: 'form-modal',
@@ -18,10 +19,12 @@ export class FormModalComponent {
     actualProtocol;
     cycle: any;
     name;
+    id;
     repeat;
 
     constructor(
         private cycleService: CycleService,
+        private protocolService: ProtocolService,
         private modalController: ModalController,
         private navParams: NavParams,
         private storage: Storage,
@@ -39,15 +42,16 @@ export class FormModalComponent {
         this.actualProtocol = this.navParams.get('protocol');
         this.cycle = this.navParams.get('cycle');
         if (this.cycle) {
+            this.id = this.cycle.id;
             this.name = this.cycle.name;
             this.repeat = this.cycle.repeat;
         }
     }
     save(formValue) {
         if (this.specialParameter === 1) {
-            this.cycleService.addCycle(this.actualProtocol, formValue);
+            this.protocolService.addCycle(this.actualProtocol, formValue);
         } else {
-            this.cycleService.editCycle(this.actualProtocol, this.cycle, formValue);
+            this.protocolService.updateCycle(this.actualProtocol, formValue);
         }
         this.modalController.dismiss(null);
     }

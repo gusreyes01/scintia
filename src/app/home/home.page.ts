@@ -17,21 +17,20 @@ export class HomePage {
 
   cycles: any = [];
   itemExpandHeight = 200;
-  protocols: { id: number; name: string; }[];
-  protocols2: any;
+  protocols: any = [];
 
   constructor(
     private protocolService: ProtocolService,
     private modalController: ModalController,
     private storage: Storage,
     public navCtrl: NavController,
-    ) {
-      this.protocols2 = [];
-    }
+  ) {
+    this.protocols = [];
+  }
 
   ionViewWillEnter() {
-    this.storage.get('protocols').then(data => {
-      this.protocols2 = data;
+    this.protocolService.getProtocols().then(data => {
+      this.protocols = data;
     });
   }
 
@@ -46,7 +45,7 @@ export class HomePage {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    this.protocols2 = data['protocols'];
+    this.protocols = data['protocols'];
   }
 
   async editProtocol(protocol, i) {
@@ -60,12 +59,10 @@ export class HomePage {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    this.protocols2 = data['protocols'];
+    this.protocols = data['protocols'];
   }
 
-  deleteProtocol(protocol, i) {
-    this.protocolService.deleteProtocol(protocol, i).then(data => {
-      this.protocols2 = data;
-    });
+  deleteProtocol(protocol) {
+    this.protocols = this.protocolService.deleteProtocol(protocol);
   }
 }

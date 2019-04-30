@@ -7,9 +7,9 @@ class Protocol {
     title: string;
     cycles: any;
 
-    /*addCycle(cycle) {
-        return this.cycles.push(cycle);
-    }*/
+    // addCycle(cycle) {
+    //     return this.cycles.push(cycle);
+    // }
 
 }
 
@@ -18,80 +18,194 @@ class Protocol {
 export class ProtocolService {
 
     public protocols: Protocol[] = [];
-    public protocols2 = [];
-    public cycles2 = [];
-    public steps2 = [];
-    constructor(
-        private cycleService: CycleService,
-        private storage: Storage,
-    ) {
-        this.storage.get('protocols').then(data => {
+
+    constructor(private cycleService: CycleService, private storage: Storage) {
+        this.getProtocols().then(data => {
             this.protocols = data;
-            if (!this.protocols) {
-                this.protocols = [
-                    {
-                        id: 1, title: 'PCR Protocol',
-                        cycles: this.cycleService.getPCRCycles()
-                    },
-                ];
-                this.storage.set('protocols', this.protocols);
-            }
         });
+
+    }
+
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+    
+    // Cycle Functions
+
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+
+
+    addCycle(protocol, cycle) {
+        for (let i = 0; i < this.protocols.length; i++) {
+            if (this.protocols[i].id === protocol.id) {
+                this.protocols[i].cycles.push(cycle);
+                this.storage.set('protocols', this.protocols);
+                return this.protocols[i].cycles
+            }
+        }
+    }
+
+
+    deleteCycle(protocol, deleted_cycle) {
+        for (let i = 0; i < this.protocols.length; i++) {
+            if (this.protocols[i].id === protocol.id) {
+                for (let j = 0; j < this.protocols[i].cycles.length; i++) {
+                    if (this.protocols[i].cycles[j].id === deleted_cycle.id) {
+                        console.log("found protocol to dlete")
+                        this.protocols[i].cycles.splice(j, 1);
+                        this.storage.set('protocols', this.protocols);
+                        return this.protocols[i];
+
+                    }
+                }
+            }
+        }
+    }
+
+    updateCycle(protocol, updated_cycle) {
+        for (let i = 0; i < this.protocols.length; i++) {
+            if (this.protocols[i].id === protocol.id) {
+                for (let j = 0; j < this.protocols[i].cycles.length; i++) {
+                    if (this.protocols[i].cycles[j].id === updated_cycle.id) {
+                        this.protocols[i].cycles[j] = updated_cycle;
+                        this.storage.set('protocols', this.protocols);
+                        return this.protocols[i].cycles;
+
+                    }
+                }
+            }
+        }
+    }
+
+
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+    
+    // Step Functions
+
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+
+
+    addStep(cycle, step) {
+        for (let i = 0; i < this.protocols.length; i++) {
+            for (let j = 0; j < this.protocols[i].cycles.length; i++) {
+                if (this.protocols[i].cycles[j].id === cycle.id) {
+                    this.protocols[i].cycles[j].steps.push(step);
+                    this.storage.set('protocols', this.protocols);
+                    return this.protocols[i].cycles[j].steps
+                }
+            }
+        }
+    }
+
+
+    deleteStep(protocol, deleted_step) {
+        for (let i = 0; i < this.protocols.length; i++) {
+            if (this.protocols[i].id === protocol.id) {
+                for (let j = 0; j < this.protocols[i].cycles.length; i++) {
+                    for (let k = 0; k < this.protocols[i].cycles[j].steps.length; i++) {
+                        if (this.protocols[i].cycles[j].steps[k].id === deleted_step.id) {
+                            this.protocols[i].cycles[j].steps.splice(j, 1);
+                            this.storage.set('protocols', this.protocols);
+                            return this.protocols[i].cycles[j].steps;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    updateStep(protocol, updated_step) {
+        for (let i = 0; i < this.protocols.length; i++) {
+            if (this.protocols[i].id === protocol.id) {
+                for (let j = 0; j < this.protocols[i].cycles.length; i++) {
+                    for (let k = 0; k < this.protocols[i].cycles[j].steps.length; i++) {
+                        if (this.protocols[i].cycles[j].steps[k].id === updated_step.id) {
+                            this.protocols[i].cycles[j].step[k] = updated_step;
+                            this.storage.set('protocols', this.protocols);
+                            return this.protocols[i].cycles[j].steps[k];
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+
+
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+
+    // Protocol Functions
+
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+
+    deleteProtocol(deleted_protocol) {
+        for (let i = 0; i < this.protocols.length; i++) {
+            if (this.protocols[i].id === deleted_protocol.id) {
+                this.protocols.splice(i, 1);
+                this.storage.set('protocols', this.protocols);
+                return this.protocols[i];
+            }
+        }
+
+    }
+
+    updateProtocol(updated_protocol) {
+        for (let i = 0; i < this.protocols.length; i++) {
+            if (this.protocols[i].id === updated_protocol.id) {
+                this.protocols[i] = updated_protocol;
+                this.storage.set('protocols', this.protocols);
+                return this.protocols[i]
+            }
+        }
     }
 
     addProtocol(title) {
-        return this.storage.get('protocols').then(protocols => {
-            this.protocols2 = protocols;
-            this.protocols2.push({
-                id: this.protocols.length + 1, title: title
-            });
-            this.storage.remove('protocols');
-            this.storage.set('protocols', this.protocols2);
-            this.protocolsArray(this.protocols2);
-            return this.protocols2;
+        this.protocols.push({
+            id: this.protocols.length + 1, title: title,
+            cycles: this.cycleService.getNewCycles(), // addCycle: Protocol.prototype.addCycle
         });
+
+        this.storage.set('protocols', this.protocols);
+
+        return this.protocols;
+
     }
 
-    editProtocol(protocol, title) {
-        return this.storage.get('protocols').then(protocols => {
-            this.protocols2 = protocols;
-            const newProto = {
-                id: protocol.id,
-                title: title.title,
-                cycles: protocol.cycles
-            };
-            this.protocols2[protocol.id - 1] = newProto;
-            this.storage.remove('protocols');
-            this.storage.set('protocols', this.protocols2);
-            return this.protocols2;
+
+    getProtocols() {
+
+        return this.storage.get('protocols').then(data => {
+            if (!data) {
+                const brand_new_protocol = [
+
+                    {
+                        id: '1', title: 'PCR Protocol',
+                        cycles: this.cycleService.getPCRCycles(), // addCycle: Protocol.prototype.addCycle
+                    },
+                ];
+
+                this.storage.set('protocols', brand_new_protocol);
+            }
+            return data;
         });
+
+
     }
 
-    deleteProtocol(protocol, i) {
-        return this.storage.get('protocols').then(protocols => {
-            this.protocols2 = protocols;
-            this.storage.get('cycle_' + protocol.id).then(cycles => {
-                if(cycles != null){
-                    this.cycles2 = cycles;
-                    for (const c of this.cycles2) {
-                        this.storage.remove('step_' + c.id);
-                    }
-                    this.storage.remove('cycle_' + protocol.id);
-                }
-            });
-            this.protocols2.splice(i, 1);
-            this.storage.remove('protocols');
-            this.storage.set('protocols', this.protocols2);
-            return this.protocols2;
-        });
-    }
-
-    protocolsArray(protocols2) {
-        this.protocols2 = protocols2;
-    }
+ 
 
     getProtocol(id): Protocol {
-        return this.protocols2.find(protocol => protocol.id === '' + id);
+        return this.protocols.find(protocol => protocol.id === '' + id);
     }
+
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+
 
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ModalController, NavParams } from '@ionic/angular';
 import { FormGroup, FormControl } from '@angular/forms';
 import { StepService } from '../../app/services/step.services';
+import { ProtocolService } from '../../app/services/protocol.services';
 
 @Component({
     selector: 'form-step-modal',
@@ -17,6 +18,7 @@ export class FormStepModalComponent {
     specialParameter: number;
     actualCycle;
     protocol;
+    id;
     step: any;
     description;
     temperature;
@@ -26,6 +28,7 @@ export class FormStepModalComponent {
         private modalController: ModalController,
         private navParams: NavParams,
         private stepService: StepService,
+        private protocolService: ProtocolService,
     ) {
 
         this.myGroup = new FormGroup({
@@ -41,17 +44,21 @@ export class FormStepModalComponent {
         this.protocol = this.navParams.get('protocol');
         this.actualCycle = this.navParams.get('cycle');
         this.step = this.navParams.get('step');
+
         if (this.step) {
+            this.id = this.step.id;
             this.description = this.step.description;
             this.temperature = this.step.temperature;
             this.time = this.step.time;
         }
+
     }
     save(formValue) {
+
         if (this.specialParameter === 1) {
-            this.stepService.addStep(this.protocol, this.actualCycle, formValue);
+            this.protocolService.addStep(this.protocol, formValue);
         } else {
-            this.stepService.editStep(this.protocol, this.actualCycle, this.step, formValue);
+            this.protocolService.updateStep(this.protocol, formValue);
         }
         this.modalController.dismiss(this.myGroup);
     }
