@@ -56,11 +56,11 @@ export class FormStepModalComponent {
     save(formValue) {
 
         if (this.specialParameter === 1) {
-            this.protocolService.addStep(this.protocol, formValue);
+            this.protocol = this.protocolService.addStep(this.protocol, this.actualCycle, formValue);
         } else {
-            this.protocolService.updateStep(this.protocol, formValue);
+            this.protocol = this.protocolService.updateStep(this.protocol, this.actualCycle, formValue);
         }
-        this.modalController.dismiss(this.myGroup);
+        this.modalController.dismiss(this.protocol);
     }
 
     closeModal() {

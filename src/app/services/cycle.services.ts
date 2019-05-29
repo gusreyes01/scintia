@@ -7,6 +7,14 @@ class Cycle {
     expanded: boolean;
     steps: any;
 
+    constructor(data) {
+        this.id = data.id;
+        this.name = data.name;
+        this.repeat = data.repeat;
+        this.expanded = false;
+        this.steps = [];
+    }
+
     // addStep(step) {
     //     return this.steps.push(step);
     // }

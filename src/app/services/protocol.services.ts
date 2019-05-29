@@ -28,7 +28,7 @@ export class ProtocolService {
 
     ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////
-    
+
     // Cycle Functions
 
     ////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ export class ProtocolService {
             if (this.protocols[i].id === protocol.id) {
                 this.protocols[i].cycles.push(cycle);
                 this.storage.set('protocols', this.protocols);
-                return this.protocols[i].cycles
+                return this.protocols[i];
             }
         }
     }
@@ -49,9 +49,9 @@ export class ProtocolService {
     deleteCycle(protocol, deleted_cycle) {
         for (let i = 0; i < this.protocols.length; i++) {
             if (this.protocols[i].id === protocol.id) {
-                for (let j = 0; j < this.protocols[i].cycles.length; i++) {
+                for (let j = 0; j < this.protocols[i].cycles.length; j++) {
                     if (this.protocols[i].cycles[j].id === deleted_cycle.id) {
-                        console.log("found protocol to dlete")
+                        console.log("found protocol to dlete");
                         this.protocols[i].cycles.splice(j, 1);
                         this.storage.set('protocols', this.protocols);
                         return this.protocols[i];
@@ -65,7 +65,7 @@ export class ProtocolService {
     updateCycle(protocol, updated_cycle) {
         for (let i = 0; i < this.protocols.length; i++) {
             if (this.protocols[i].id === protocol.id) {
-                for (let j = 0; j < this.protocols[i].cycles.length; i++) {
+                for (let j = 0; j < this.protocols[i].cycles.length; j++) {
                     if (this.protocols[i].cycles[j].id === updated_cycle.id) {
                         this.protocols[i].cycles[j] = updated_cycle;
                         this.storage.set('protocols', this.protocols);
@@ -80,52 +80,58 @@ export class ProtocolService {
 
     ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////
-    
+
     // Step Functions
 
     ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////
 
 
-    addStep(cycle, step) {
-        for (let i = 0; i < this.protocols.length; i++) {
-            for (let j = 0; j < this.protocols[i].cycles.length; i++) {
-                if (this.protocols[i].cycles[j].id === cycle.id) {
-                    this.protocols[i].cycles[j].steps.push(step);
-                    this.storage.set('protocols', this.protocols);
-                    return this.protocols[i].cycles[j].steps
-                }
-            }
-        }
-    }
-
-
-    deleteStep(protocol, deleted_step) {
+    addStep(protocol, cycle, step) {
         for (let i = 0; i < this.protocols.length; i++) {
             if (this.protocols[i].id === protocol.id) {
-                for (let j = 0; j < this.protocols[i].cycles.length; i++) {
-                    for (let k = 0; k < this.protocols[i].cycles[j].steps.length; i++) {
-                        if (this.protocols[i].cycles[j].steps[k].id === deleted_step.id) {
-                            this.protocols[i].cycles[j].steps.splice(j, 1);
-                            this.storage.set('protocols', this.protocols);
-                            return this.protocols[i].cycles[j].steps;
-                        }
+                for (let j = 0; j < this.protocols[i].cycles.length; j++) {
+                    if (this.protocols[i].cycles[j].id === cycle.id) {
+                        this.protocols[i].cycles[j].steps.push(step);
+                        this.storage.set('protocols', this.protocols);
+                        return this.protocols[i];
                     }
-
                 }
             }
         }
     }
 
-    updateStep(protocol, updated_step) {
+
+    deleteStep(protocol, cycle, deleted_step) {
         for (let i = 0; i < this.protocols.length; i++) {
             if (this.protocols[i].id === protocol.id) {
-                for (let j = 0; j < this.protocols[i].cycles.length; i++) {
-                    for (let k = 0; k < this.protocols[i].cycles[j].steps.length; i++) {
-                        if (this.protocols[i].cycles[j].steps[k].id === updated_step.id) {
-                            this.protocols[i].cycles[j].step[k] = updated_step;
-                            this.storage.set('protocols', this.protocols);
-                            return this.protocols[i].cycles[j].steps[k];
+                for (let j = 0; j < this.protocols[i].cycles.length; j++) {
+                    if (this.protocols[i].cycles[j].id === cycle.id) {
+                        for (let k = 0; k < this.protocols[i].cycles[j].steps.length; k++) {
+                            if (this.protocols[i].cycles[j].steps[k].id === deleted_step.id) {
+                                this.protocols[i].cycles[j].steps.splice(k, 1);
+                                this.storage.set('protocols', this.protocols);
+                                return this.protocols[i];
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    updateStep(protocol, cycle, updated_step) {
+        for (let i = 0; i < this.protocols.length; i++) {
+            if (this.protocols[i].id === protocol.id) {
+                for (let j = 0; j < this.protocols[i].cycles.length; j++) {
+                    if (this.protocols[i].cycles[j].id === cycle.id) {
+                        for (let k = 0; k < this.protocols[i].cycles[j].steps.length; k++) {
+                            if (this.protocols[i].cycles[j].steps[k].id === updated_step.id) {
+                                this.protocols[i].cycles[j].steps[k] = updated_step;
+                                this.storage.set('protocols', this.protocols);
+                                return this.protocols[i];
+                            }
                         }
                     }
 
@@ -160,7 +166,7 @@ export class ProtocolService {
             if (this.protocols[i].id === updated_protocol.id) {
                 this.protocols[i] = updated_protocol;
                 this.storage.set('protocols', this.protocols);
-                return this.protocols[i]
+                return this.protocols[i];
             }
         }
     }
@@ -198,7 +204,7 @@ export class ProtocolService {
 
     }
 
- 
+
 
     getProtocol(id): Protocol {
         return this.protocols.find(protocol => protocol.id === '' + id);

@@ -21,6 +21,8 @@ export class FormModalComponent {
     name;
     id;
     repeat;
+    protocol: any;
+    steps: [];
 
     constructor(
         private cycleService: CycleService,
@@ -45,15 +47,34 @@ export class FormModalComponent {
             this.id = this.cycle.id;
             this.name = this.cycle.name;
             this.repeat = this.cycle.repeat;
+            this.steps = this.cycle.steps;
         }
     }
     save(formValue) {
+
+
         if (this.specialParameter === 1) {
-            this.protocolService.addCycle(this.actualProtocol, formValue);
+
+            const param_cycle = {
+                id: this.actualProtocol.cycles.length + 1,
+                name: this.name,
+                repeat: this.repeat,
+                steps: []
+            };
+
+            this.protocol = this.protocolService.addCycle(this.actualProtocol, param_cycle);
         } else {
-            this.protocolService.updateCycle(this.actualProtocol, formValue);
+
+            const param_cycle = {
+                id: this.id,
+                name: this.name,
+                repeat: this.repeat,
+                steps: this.steps
+            };
+
+            this.protocol = this.protocolService.updateCycle(this.actualProtocol, param_cycle);
         }
-        this.modalController.dismiss(null);
+        this.modalController.dismiss(this.protocol);
     }
 
     closeModal() {

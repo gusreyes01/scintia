@@ -10,7 +10,7 @@ import { Storage } from '@ionic/storage';
 import { ActionSheet, ActionSheetOptions } from '@ionic-native/action-sheet/ngx';
 import { StepService } from '../services/step.services';
 import { CycleService } from '../services/cycle.services';
-
+import { ChartComponent } from '../chart/chart.component';
 @Component({
     selector: 'protocol-detail',
     templateUrl: 'protocol-detail.component.html',
@@ -47,11 +47,12 @@ export class ProtocolDetailComponent {
     }
 
     ionViewWillEnter() {
-        this.protocolId = this.route.snapshot.paramMap.get('id');
         // this.protocol = this.protocolService.getProtocol(protocolId);
     }
 
     getProtocols(protocols) {
+        this.protocolId = this.route.snapshot.paramMap.get('id');
+
         this.protocols = protocols;
         this.protocol = this.protocols.find(protocol => protocol.title === '' + this.protocolId);
         if (this.protocol.cycles) {
@@ -71,7 +72,11 @@ export class ProtocolDetailComponent {
                 cycle: null
             }
         });
-        return await modal.present();
+        await modal.present();
+        await modal.onDidDismiss().then((data) => {
+            this.protocol = data['data'];
+        });
+
     }
 
     async addStep() {
@@ -86,7 +91,11 @@ export class ProtocolDetailComponent {
                     step: null
                 }
             });
-            return await modal.present();
+            await modal.present();
+            await modal.onDidDismiss().then((data) => {
+                console.log(data)
+                this.protocol = data['data'];
+            });
         }
     }
 
@@ -100,7 +109,10 @@ export class ProtocolDetailComponent {
                 cycle: cycle
             }
         });
-        return await modal.present();
+        await modal.present();
+        await modal.onDidDismiss().then((data) => {
+            this.protocol = data['data'];
+        });
     }
 
     async deleteCycle(cycle, i) {
@@ -118,11 +130,14 @@ export class ProtocolDetailComponent {
                 step: step
             }
         });
-        return await modal.present();
+        await modal.present();
+        await modal.onDidDismiss().then((data) => {
+            this.protocol = data['data'];
+        });
     }
 
     async deleteStep(step, j) {
-        //this.protocolService.deleteStep(this.protocol, this.cycle, step, j);
+        this.protocol = this.protocolService.deleteStep(this.protocol, this.cycle, step);
     }
 
 
