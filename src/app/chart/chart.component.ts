@@ -49,7 +49,7 @@ export class ChartComponent {
 
         this.serial.requestPermission().then(() => {
             this.serial.open({
-                baudRate: 9800,
+                baudRate: 115200,
                 dataBits: 4,
                 stopBits: 1,
                 parity: 0,
