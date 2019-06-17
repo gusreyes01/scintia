@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Serial } from '@ionic-native/serial/ngx';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
     selector: 'chart',
@@ -7,12 +8,15 @@ import { Serial } from '@ionic-native/serial/ngx';
     styleUrls: ['chart.component.scss']
 })
 export class ChartComponent {
+    @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+
     constructor(private serial: Serial) { }
 
 
     public lineChartData: Array<any> = [
         { data: [28, 48, 40, 19, 86, 27, 90], label: 'Temperature (Celsis)' },
     ];
+    public _lineChartData: Array<any> = [];
     public lineChartLabels: Array<any> = ['0', '10', '15', '20', '25', '30', '35'];
     public lineChartOptions: any = {
         responsive: true
@@ -33,14 +37,13 @@ export class ChartComponent {
     public lineChartType = 'line';
 
     public randomize(): void {
-        const _lineChartData: Array<any> = new Array(this.lineChartData.length);
         for (let i = 0; i < this.lineChartData.length; i++) {
-            _lineChartData[i] = { data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label };
+            this._lineChartData[i] = { data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label };
             for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-                _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
+                this._lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
             }
         }
-        this.lineChartData = _lineChartData;
+        this.lineChartData = this._lineChartData;
     }
 
     // events
@@ -57,10 +60,19 @@ export class ChartComponent {
                 rts: true,
                 sleepOnPause: false
             }).then(() => {
-                alert("Opened connection");
+                alert('Conection Established');
                 console.log('Serial connection opened');
-            });
-        }).catch((error: any) => console.log(alert(error)));
+
+                this.serial.registerReadCallback().subscribe((buffer) => {
+                    //Create a Int8Array view referring to the buffer 
+                    const view = new Uint8Array(buffer);
+                    this._lineChartData.push(view);
+                    this.chart.chart.update();
+                });
+
+
+            }).catch((error: any) => alert(error));
+        }).catch((error: any) => alert(error));
 
     }
 
