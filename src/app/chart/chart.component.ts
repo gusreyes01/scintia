@@ -53,7 +53,7 @@ export class ChartComponent {
         this.serial.requestPermission().then(() => {
             this.serial.open({
                 baudRate: 115200,
-                dataBits: 4,
+                dataBits: 8,
                 stopBits: 1,
                 parity: 0,
                 dtr: true,
@@ -66,6 +66,8 @@ export class ChartComponent {
                 this.serial.registerReadCallback().subscribe((buffer) => {
                     //Create a Int8Array view referring to the buffer 
                     const view = new Uint8Array(buffer);
+                    const string = new TextDecoder("utf-8").decode(view);
+                    alert(string);
                     this._lineChartData.push(view);
                     this.chart.chart.update();
                 });
