@@ -49,6 +49,11 @@ export class ChartComponent {
     // events
     public chartClicked(e: any): void {
         console.log(e);
+        let flag = true;
+
+        if (!flag) {
+            flag = !flag;
+        }
 
         this.serial.requestPermission().then(() => {
             this.serial.open({
@@ -56,21 +61,35 @@ export class ChartComponent {
                 dataBits: 8,
                 stopBits: 1,
                 parity: 0,
-                dtr: true,
-                rts: true,
+                dtr: false,
+                rts: false,
                 sleepOnPause: false
             }).then(() => {
                 alert('Conection Established');
                 console.log('Serial connection opened');
+                let val;
 
-                this.serial.registerReadCallback().subscribe((buffer) => {
-                    //Create a Int8Array view referring to the buffer 
-                    const view = new Uint8Array(buffer);
-                    const string = new TextDecoder("utf-8").decode(view);
-                    alert(string);
-                    this._lineChartData.push(view);
-                    this.chart.chart.update();
-                });
+                if (flag) {
+                    val = '1x\n\r';
+
+                } else {
+                    val = '0x\n\r';
+                }
+
+                this.serial.write(val).then(() => {
+                    alert(val);
+                    alert('write successful');
+                }).catch((error: any) => alert(error));
+
+            
+                // this.serial.registerReadCallback().subscribe((buffer) => {
+                //     //Create a Int8Array view referring to the buffer
+                //     const view = new Uint8Array(buffer);
+                //     const string = new TextDecoder("utf-8").decode(view);
+                //     alert(string);
+                //     this._lineChartData.push(view);
+                //     this.chart.chart.update();
+                // });
 
 
             }).catch((error: any) => alert(error));
