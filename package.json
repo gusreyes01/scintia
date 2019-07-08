@@ -27,7 +27,7 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^4.0.0",
     "@ionic/storage": "^2.2.0",
-    "chart.js": "^2.7.3",
+    "chart.js": "^2.8.0",
     "cordova-android": "7.1.4",
     "cordova-browser": "5.0.4",
     "cordova-plugin-actionsheet": "^2.3.3",
@@ -39,7 +39,7 @@
     "cordova-plugin-whitelist": "^1.3.3",
     "cordovarduino": "0.0.10",
     "core-js": "^2.5.4",
-    "ng2-charts": "^2.0.0-beta.21",
+    "ng2-charts": "^2.2.5",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.29"
   },

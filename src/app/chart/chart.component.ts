@@ -14,8 +14,9 @@ export class ChartComponent {
 
 
     public lineChartData: Array<any> = [
-        { data: [28, 48, 40, 19, 86, 27, 90], label: 'Temperature (Celsis)' },
+        { data: [], label: 'Temperature (Celsis)' },
     ];
+
     public _lineChartData: Array<any> = [];
     public lineChartLabels: Array<any> = ['0', '10', '15', '20', '25', '30', '35'];
     public lineChartOptions: any = {
@@ -36,24 +37,17 @@ export class ChartComponent {
     public lineChartLegend = true;
     public lineChartType = 'line';
 
-    public randomize(): void {
-        for (let i = 0; i < this.lineChartData.length; i++) {
-            this._lineChartData[i] = { data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label };
-            for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-                this._lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
-            }
+
+    public ngOnInit() {
+        for (let j = 0; j < 100; j++) {
+            this.lineChartData[0].data[j] = 5;
         }
-        this.lineChartData = this._lineChartData;
     }
+
 
     // events
     public chartClicked(e: any): void {
-        console.log(e);
-        let flag = true;
 
-        if (!flag) {
-            flag = !flag;
-        }
 
         this.serial.requestPermission().then(() => {
             this.serial.open({
@@ -69,27 +63,20 @@ export class ChartComponent {
                 console.log('Serial connection opened');
                 let val;
 
-                if (flag) {
-                    val = '1x\n\r';
-
-                } else {
-                    val = '0x\n\r';
-                }
+                // val = '1x\n\r';
+                val = '#*1%94,120%**30%94,30,60,30,72,30,12,12,12,12%**1%72,60%*#' + '\n\r';
 
                 this.serial.write(val).then(() => {
-                    alert(val);
-                    alert('write successful');
+                    alert('Writing : \n' + val);
                 }).catch((error: any) => alert(error));
 
-            
-                // this.serial.registerReadCallback().subscribe((buffer) => {
-                //     //Create a Int8Array view referring to the buffer
-                //     const view = new Uint8Array(buffer);
-                //     const string = new TextDecoder("utf-8").decode(view);
-                //     alert(string);
-                //     this._lineChartData.push(view);
-                //     this.chart.chart.update();
-                // });
+                this.serial.registerReadCallback().subscribe((buffer) => {
+                    // Create a Int8Array view referring to the buffer
+                    const view = new Uint8Array(buffer);
+                    const string = new TextDecoder('utf-8').decode(view);
+                    alert(string);
+                    this._lineChartData.push(view);
+                });
 
 
             }).catch((error: any) => alert(error));
