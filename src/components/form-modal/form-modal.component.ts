@@ -52,11 +52,9 @@ export class FormModalComponent {
     }
     save(formValue) {
 
-
         if (this.specialParameter === 1) {
-
             const param_cycle = {
-                id: this.actualProtocol.cycles.length + 1,
+                id: this.actualProtocol.cycles.length + 2,
                 name: this.name,
                 repeat: this.repeat,
                 steps: []

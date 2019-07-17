@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { Serial } from '@ionic-native/serial/ngx';
 import { BaseChartDirective } from 'ng2-charts';
+import { Location } from '@angular/common';
+
 
 @Component({
     selector: 'chart',
@@ -10,18 +12,19 @@ import { BaseChartDirective } from 'ng2-charts';
 export class ChartComponent {
     @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
-    constructor(private serial: Serial) { }
+    constructor(private serial: Serial, private location: Location) { }
 
 
     public lineChartData: Array<any> = [
-        { data: [], label: 'Temperature (Celsis)' },
+        { data: [], label: 'Time (Celsius)' },
     ];
 
     public _lineChartData: Array<any> = [];
-    public lineChartLabels: Array<any> = ['0', '10', '15', '20', '25', '30', '35'];
+    public lineChartLabels: Array<any> = ['0', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '60', '65', '70', '75', '80', '85', '90', '95', '100'];
     public lineChartOptions: any = {
-        responsive: true
+        responsive: true,
     };
+
     public lineChartColors: Array<any> = [
 
         { // dark grey
@@ -40,13 +43,24 @@ export class ChartComponent {
 
     public ngOnInit() {
         for (let j = 0; j < 100; j++) {
-            this.lineChartData[0].data[j] = 5;
+            this.lineChartData[0].data[j] = 0;
+            // const array = '5,90'.split(',');
+            // this.lineChartData[0].data[array[0]] = array[1];
+            this.chart.chart.update();
         }
     }
 
+    backButton() {
+        this.location.back();
+    }
 
     // events
     public chartClicked(e: any): void {
+        // const val1 = Math.floor(Math.random() * 100) + 1;
+        // const val2 = Math.floor(Math.random() * 100) + 1;
+
+        // this.lineChartData[0].data[val1] = val2;
+        // this.chart.chart.update();
 
 
         this.serial.requestPermission().then(() => {
@@ -74,10 +88,10 @@ export class ChartComponent {
                     // Create a Int8Array view referring to the buffer
                     const view = new Uint8Array(buffer);
                     const string = new TextDecoder('utf-8').decode(view);
-                    alert(string);
-                    this._lineChartData.push(view);
+                    const array = string.split(',');
+                    this.lineChartData[0].data[array[0]] = array[1];
+                    this.chart.chart.update();
                 });
-
 
             }).catch((error: any) => alert(error));
         }).catch((error: any) => alert(error));

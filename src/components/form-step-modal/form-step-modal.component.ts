@@ -32,6 +32,7 @@ export class FormStepModalComponent {
     ) {
 
         this.myGroup = new FormGroup({
+            id: new FormControl(),
             description: new FormControl(),
             temperature: new FormControl(),
             time: new FormControl()
@@ -44,7 +45,6 @@ export class FormStepModalComponent {
         this.protocol = this.navParams.get('protocol');
         this.actualCycle = this.navParams.get('cycle');
         this.step = this.navParams.get('step');
-
         if (this.step) {
             this.id = this.step.id;
             this.description = this.step.description;
@@ -56,7 +56,14 @@ export class FormStepModalComponent {
     save(formValue) {
 
         if (this.specialParameter === 1) {
-            this.protocol = this.protocolService.addStep(this.protocol, this.actualCycle, formValue);
+            const param_step = {
+                id: this.actualCycle.steps.length + 2,
+                description: formValue.description,
+                temperature: formValue.temperature,
+                time: formValue.time,
+            };
+
+            this.protocol = this.protocolService.addStep(this.protocol, this.actualCycle, param_step);
         } else {
             this.protocol = this.protocolService.updateStep(this.protocol, this.actualCycle, formValue);
         }

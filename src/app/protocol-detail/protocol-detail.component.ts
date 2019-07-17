@@ -52,7 +52,6 @@ export class ProtocolDetailComponent {
 
     getProtocols(protocols) {
         this.protocolId = this.route.snapshot.paramMap.get('id');
-
         this.protocols = protocols;
         this.protocol = this.protocols.find(protocol => protocol.title === '' + this.protocolId);
         if (this.protocol.cycles) {
@@ -74,7 +73,9 @@ export class ProtocolDetailComponent {
         });
         await modal.present();
         await modal.onDidDismiss().then((data) => {
-            this.protocol = data['data'];
+            if (data.data) {
+                this.protocol = this.protocolService.updateProtocol(data['data']);
+            }
         });
 
     }
@@ -93,8 +94,9 @@ export class ProtocolDetailComponent {
             });
             await modal.present();
             await modal.onDidDismiss().then((data) => {
-                console.log(data)
-                this.protocol = data['data'];
+                if (data.data) {
+                    this.protocol = this.protocolService.updateProtocol(data['data']);
+                }
             });
         }
     }
@@ -111,7 +113,9 @@ export class ProtocolDetailComponent {
         });
         await modal.present();
         await modal.onDidDismiss().then((data) => {
-            this.protocol = data['data'];
+            if (data.data) {
+                this.protocol = this.protocolService.updateProtocol(data['data']);
+            }
         });
     }
 
@@ -132,7 +136,9 @@ export class ProtocolDetailComponent {
         });
         await modal.present();
         await modal.onDidDismiss().then((data) => {
-            this.protocol = data['data'];
+            if (data.data) {
+                this.protocol = this.protocolService.updateProtocol(data['data']);
+            }
         });
     }
 

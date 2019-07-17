@@ -26,6 +26,12 @@ export class ProtocolService {
 
     }
 
+    refreshProtocols() {
+        this.getProtocols().then(data => {
+            this.protocols = data;
+        });
+    }
+
     ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////
 
@@ -36,6 +42,7 @@ export class ProtocolService {
 
 
     addCycle(protocol, cycle) {
+
         for (let i = 0; i < this.protocols.length; i++) {
             if (this.protocols[i].id === protocol.id) {
                 this.protocols[i].cycles.push(cycle);
@@ -47,19 +54,21 @@ export class ProtocolService {
 
 
     deleteCycle(protocol, deleted_cycle) {
+    
         for (let i = 0; i < this.protocols.length; i++) {
             if (this.protocols[i].id === protocol.id) {
                 for (let j = 0; j < this.protocols[i].cycles.length; j++) {
                     if (this.protocols[i].cycles[j].id === deleted_cycle.id) {
-                        console.log("found protocol to dlete");
                         this.protocols[i].cycles.splice(j, 1);
                         this.storage.set('protocols', this.protocols);
                         return this.protocols[i];
-
                     }
                 }
             }
         }
+        alert("error on delete")
+        return protocol;
+
     }
 
     updateCycle(protocol, updated_cycle) {
@@ -103,6 +112,9 @@ export class ProtocolService {
 
 
     deleteStep(protocol, cycle, deleted_step) {
+        console.log(protocol)
+        console.log(cycle)
+        console.log(deleted_step)
         for (let i = 0; i < this.protocols.length; i++) {
             if (this.protocols[i].id === protocol.id) {
                 for (let j = 0; j < this.protocols[i].cycles.length; j++) {
@@ -119,6 +131,8 @@ export class ProtocolService {
                 }
             }
         }
+        alert("Delete step failed")
+        return protocol;
     }
 
     updateStep(protocol, cycle, updated_step) {
@@ -138,6 +152,8 @@ export class ProtocolService {
                 }
             }
         }
+        alert("Update step failed")
+        return protocol;
     }
 
 
@@ -172,8 +188,9 @@ export class ProtocolService {
     }
 
     addProtocol(title) {
+
         this.protocols.push({
-            id: this.protocols.length + 1, title: title,
+            id: this.protocols.length + 2, title: title,
             cycles: this.cycleService.getNewCycles(), // addCycle: Protocol.prototype.addCycle
         });
 
