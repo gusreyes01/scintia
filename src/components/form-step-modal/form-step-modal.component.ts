@@ -27,7 +27,6 @@ export class FormStepModalComponent {
     constructor(
         private modalController: ModalController,
         private navParams: NavParams,
-        private stepService: StepService,
         private protocolService: ProtocolService,
     ) {
 
@@ -54,6 +53,7 @@ export class FormStepModalComponent {
 
     }
     save(formValue) {
+        console.log(this.actualCycle)
 
         if (this.specialParameter === 1) {
             const param_step = {
@@ -65,6 +65,7 @@ export class FormStepModalComponent {
 
             this.protocol = this.protocolService.addStep(this.protocol, this.actualCycle, param_step);
         } else {
+            formValue.id = this.step.id;
             this.protocol = this.protocolService.updateStep(this.protocol, this.actualCycle, formValue);
         }
         this.modalController.dismiss(this.protocol);

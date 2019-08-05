@@ -48,6 +48,7 @@ export class FormProtocolModalComponent {
             });
 
         } else {
+            this.protocol.title = this.title;
             const data = this.protocolService.updateProtocol(this.protocol);
             this.modalController.dismiss({
                 protocols: data

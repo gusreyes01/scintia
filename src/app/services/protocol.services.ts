@@ -136,6 +136,8 @@ export class ProtocolService {
     }
 
     updateStep(protocol, cycle, updated_step) {
+        console.log(cycle)
+        console.log(updated_step)
         for (let i = 0; i < this.protocols.length; i++) {
             if (this.protocols[i].id === protocol.id) {
                 for (let j = 0; j < this.protocols[i].cycles.length; j++) {
@@ -171,7 +173,7 @@ export class ProtocolService {
             if (this.protocols[i].id === deleted_protocol.id) {
                 this.protocols.splice(i, 1);
                 this.storage.set('protocols', this.protocols);
-                return this.protocols[i];
+                return this.protocols;
             }
         }
 
@@ -180,6 +182,7 @@ export class ProtocolService {
     updateProtocol(updated_protocol) {
         for (let i = 0; i < this.protocols.length; i++) {
             if (this.protocols[i].id === updated_protocol.id) {
+                console.log(updated_protocol)
                 this.protocols[i] = updated_protocol;
                 this.storage.set('protocols', this.protocols);
                 return this.protocols[i];
